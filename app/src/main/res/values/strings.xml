@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">pospirl</string>
+    <string name="menu_favorite">Favorite</string>
+    <string name="menu_analysis">Analysis</string>
+    <string name="menu_prediction">Prediction</string>
+    <string name="long_text">***ThisIsLongTextToTestBottomNavigationBehavior***</string>
+    <string name="settings_title">Settings</string>
+    <string name="search_hint">Search Company...</string>
+    <string name="search_title">Search</string>
+
+</resources>

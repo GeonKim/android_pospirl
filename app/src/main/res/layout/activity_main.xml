@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.geonhokim.pospirl.MainActivity">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/long_text"
+                android:visibility="visible" />
+
+            <RelativeLayout
+                android:id="@+id/analysis_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="25dp"
+                    android:text="Analysis"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="330dp"
+                    android:layout_marginTop="70dp">
+
+                </com.github.mikephil.charting.charts.PieChart>
+
+                <RelativeLayout
+                    android:id="@+id/rl1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="420dp"
+                    android:visibility="gone">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="18dp"
+                        android:background="#00000000"
+                        app:srcCompat="@drawable/ic_autorenew" />
+
+                    <TextView
+                        android:id="@+id/article1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="20dp"
+                        android:text="◇ '포스코 주식 사도 된다', 제품가격 올라 3분기 실적호조\n\n\t\t\t상승 단어: 호조, 상승, 매수" />
+
+                    <TextView
+                        android:id="@+id/article1_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/article1"
+                        android:layout_alignRight="@+id/article1"
+                        android:text="+ 10"
+                        android:textSize="18dp"
+                        android:textColor="#00F000"/>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/rl2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="540dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/article2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="30dp"
+                        android:text="◇ 한지붕 두 노조에 정치권 개입…포스코 또 외풍에 '흔들'\n\n\t\t\t하락 단어: 갈등, 하락, 악화" />
+
+                    <TextView
+                        android:id="@+id/article2_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/article2"
+                        android:layout_alignRight="@+id/article2"
+                        android:text="- 5"
+                        android:textSize="18dp"
+                        android:textColor="#F00000"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="640dp"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/article3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="30dp"
+                    android:text="◇ 포스코, 3분기 영업이익 1조 회복.포스코의 3분기 실적..\n\n\t\t\t상승 단어: 회복, 상승, 해소" />
+
+                <TextView
+                    android:id="@+id/article3_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/article3"
+                    android:layout_alignRight="@+id/article3"
+                    android:text="+ 6"
+                    android:textSize="18dp"
+                    android:textColor="#00F000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/article3_1"
+                    android:text="\n\n"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Prediction"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_section_color"
+        app:itemTextColor="@color/bottom_section_color"
+        app:layout_behavior="com.example.geonhokim.pospirl.BottomNavigationBehavior"
+        app:menu="@menu/my_navigation_items" />
+
+</android.support.design.widget.CoordinatorLayout>
