@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
                 switch (item.getItemId())
                 {
                     case R.id.action_favorite:
-                        tv1.setVisibility(View.VISIBLE);
+                        tv1.setVisibility(View.GONE);
                         rl.setVisibility(View.GONE);
                         tv3.setVisibility(View.GONE);
                         break;
