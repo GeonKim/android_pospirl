@@ -24,13 +24,13 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/long_text"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/analysis_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv2"
@@ -52,103 +52,22 @@
 
                 </com.github.mikephil.charting.charts.PieChart>
 
-                <RelativeLayout
-                    android:id="@+id/rl1"
+                <ImageButton
+                    android:id="@+id/renew_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="410dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/ic_autorenew" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_article"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="420dp"
-                    android:visibility="gone">
+                    android:layout_height="463dp"
+                    android:layout_below="@+id/renew_btn" >
 
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="18dp"
-                        android:background="#00000000"
-                        app:srcCompat="@drawable/ic_autorenew" />
-
-                    <TextView
-                        android:id="@+id/article1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="20dp"
-                        android:text="◇ '포스코 주식 사도 된다', 제품가격 올라 3분기 실적호조\n\n\t\t\t상승 단어: 호조, 상승, 매수" />
-
-                    <TextView
-                        android:id="@+id/article1_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/article1"
-                        android:layout_alignRight="@+id/article1"
-                        android:text="+ 10"
-                        android:textSize="18dp"
-                        android:textColor="#00F000"/>
-
-                </RelativeLayout>
-
-
-
-                <RelativeLayout
-                    android:id="@+id/rl2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="540dp"
-                    android:visibility="gone">
-                    <TextView
-                        android:id="@+id/article2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="30dp"
-                        android:text="◇ 한지붕 두 노조에 정치권 개입…포스코 또 외풍에 '흔들'\n\n\t\t\t하락 단어: 갈등, 하락, 악화" />
-
-                    <TextView
-                        android:id="@+id/article2_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/article2"
-                        android:layout_alignRight="@+id/article2"
-                        android:text="- 5"
-                        android:textSize="18dp"
-                        android:textColor="#F00000"/>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rl3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="640dp"
-                android:visibility="gone">
-                <TextView
-                    android:id="@+id/article3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="30dp"
-                    android:text="◇ 포스코, 3분기 영업이익 1조 회복.포스코의 3분기 실적..\n\n\t\t\t상승 단어: 회복, 상승, 해소" />
-
-                <TextView
-                    android:id="@+id/article3_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/article3"
-                    android:layout_alignRight="@+id/article3"
-                    android:text="+ 6"
-                    android:textSize="18dp"
-                    android:textColor="#00F000"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/article3_1"
-                    android:text="\n\n"/>
+                </android.support.v7.widget.RecyclerView>
 
             </RelativeLayout>
 
@@ -156,12 +75,13 @@
                 android:id="@+id/tv3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:text="Prediction"
                 android:visibility="gone" />
 
-
         </RelativeLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.BottomNavigationView
