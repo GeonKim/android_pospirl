@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     public  RelativeLayout rl1, rl2, rl3;
 
 //    private final String serverUrl = "http://localhost/pos/include/testjson.php";
-private final String baseServerUrl = "http://localhost/pos/include/testjson.php?company_name=";
+    private final String baseServerUrl = "http://141.223.122.77/pos/include/testjson.php?company_name=";
     public static String company_name;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
@@ -129,12 +130,13 @@ private final String baseServerUrl = "http://localhost/pos/include/testjson.php?
             @Override
             public boolean onQueryTextSubmit(String s) //검색어 완료시 작동 리스너
             {
+//                jsoncall();
                 company_name = s;
                 tv2.setText("오늘의 뉴스는...");
                 displayPieChart(10f, 2f, 0.5f);
-                jsoncall();
-//                AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
-//                asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
+
+                AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
+                asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
 
 
                 return true;
@@ -181,6 +183,60 @@ private final String baseServerUrl = "http://localhost/pos/include/testjson.php?
         pieChart.setData(data); //plotting
     }
 
+//    public void jsoncall()
+//    {
+//        String serverUrl = "http://localhost/pos/include/testjson.php?company_name=posco";
+//
+//
+//        ArrayRequest = new JsonArrayRequest(serverUrl, new Response.Listener<JSONArray>()
+//        {
+//            @Override
+//            public void onResponse(JSONArray response)
+//            {
+//
+//                JSONObject jsonObject = null;
+//
+//                String datetime, title, links, keywords;
+//                double scores;
+//
+//
+//                for (int i = 0; i < response.length(); i++)
+//                {
+//                    Toast.makeText(getApplicationContext(),String.valueOf(i),Toast.LENGTH_SHORT).show();
+//                    try
+//                    {
+//                        jsonObject = response.getJSONObject(i);
+//
+//                        datetime = jsonObject.getString("datetime");
+//                        title = jsonObject.getString("title");
+//                        links = jsonObject.getString("links");
+//                        scores = jsonObject.getDouble("scores");
+//                        keywords = jsonObject.getString("keywords");
+//
+//                        CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
+//                        datalist.add(ca);
+//                    } catch (JSONException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                setRvadapter(datalist);
+//            }
+//        }, new Response.ErrorListener()
+//        {
+//            @Override
+//            public void onErrorResponse(VolleyError error)
+//            {
+//
+//            }
+//        });
+//        ArrayRequest.getBodyContentType();
+//        requestQueue = Volley.newRequestQueue(MainActivity.this);
+//        requestQueue.add(ArrayRequest);
+//    }
+
+
     public void setRvadapter(List<CompanyArticle> datalist)
     {
         RvAdapter myAdapter = new RvAdapter(this, datalist);
@@ -188,217 +244,165 @@ private final String baseServerUrl = "http://localhost/pos/include/testjson.php?
         myrv.setAdapter(myAdapter);
     }
 
-    public void jsoncall()
+
+    private void returnParsedJsonObject(JSONArray jsonResult)
     {
-        String serverUrl = "http://localhost/pos/include/testjson.php?company_name=posco";
+        JSONObject jsonObject = null;
 
-        ArrayRequest = new JsonArrayRequest(serverUrl, new Response.Listener<JSONArray>()
+        int returnedResult = 0;
+
+
+        String datetime, title, links, keywords;
+        double scores;
+
+        for (int i = 0; i < jsonResult.length(); i++)
         {
-
-            @Override
-            public void onResponse(JSONArray response)
+            try
             {
+                jsonObject = jsonResult.getJSONObject(i);
 
-                JSONObject jsonObject = null;
+                datetime = jsonObject.getString("datetime");
+                title = jsonObject.getString("title");
+                links = jsonObject.getString("links");
+                scores = jsonObject.getDouble("scores");
+                keywords = jsonObject.getString("keywords");
 
-                String datetime, title, links, keywords;
-                double scores;
+                CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
+                datalist.add(ca);
 
-
-                for (int i = 0; i < response.length(); i++)
-                {
-
-                    try
-                    {
-                        jsonObject = response.getJSONObject(i);
-
-                        datetime = jsonObject.getString("datetime");
-                        title = jsonObject.getString("title");
-                        links = jsonObject.getString("links");
-                        scores = jsonObject.getDouble("scores");
-                        keywords = jsonObject.getString("keywords");
-
-                        CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
-                        datalist.add(ca);
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                setRvadapter(datalist);
-            }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
+            }catch (JSONException e)
             {
-
+                e.printStackTrace();
             }
-        });
-        requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(ArrayRequest);
+        }
+
+        setRvadapter(datalist);
+        //return returnedResult;
+
     }
 
+    private class AsyncDataClass extends AsyncTask<String, Void, JSONArray>
+    {
+        @Override
+        protected JSONArray doInBackground(String... params) //파라미터를 스트링 배열 형태로 받는다. 여기서는 params[0] = url, params[1] = Company Name
+        {
 
-//    private void returnParsedJsonObject(JSONArray jsonResult)
-//    {
-//        JSONObject jsonObject = null;
-//
-//        int returnedResult = 0;
-//
-//
-//        String datetime, title, links, keywords;
-//        double scores;
-//
-//        for (int i = 0; i < jsonResult.length(); i++)
-//        {
-//            try
-//            {
-//                jsonObject = jsonResult.getJSONObject(i);
-//
-//                datetime = jsonObject.getString("datetime");
-//                title = jsonObject.getString("title");
-//                links = jsonObject.getString("links");
-//                scores = jsonObject.getDouble("scores");
-//                keywords = jsonObject.getString("keywords");
-//
-//                CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
-//                datalist.add(ca);
-//
-//            }catch (JSONException e)
-//            {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        setRvadapter(datalist);
-//        //return returnedResult;
-//
-//    }
-//
-//    private class AsyncDataClass extends AsyncTask<String, Void, JSONArray>
-//    {
-//        @Override
-//        protected JSONArray doInBackground(String... params) //파라미터를 스트링 배열 형태로 받는다. 여기서는 params[0] = url, params[1] = Company Name
-//        {
-//
-//            HttpParams httpParameters = new BasicHttpParams();
-//
-//            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
-//
-//            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
-//
-//            HttpClient httpClient = new DefaultHttpClient(httpParameters);
-//
-//            HttpPost httpPost = new HttpPost(params[0]);  //serverUrl을 http post의 인풋으로 받음.
-//
-//            String result = "";
-//
-//            JSONArray jsonResult = null; //json 파싱 결과를 처음엔 null 상태로 초기화
-//
-//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
-//
-//            try
-//            {
-//
-//                nameValuePairs.add(new BasicNameValuePair("company_name", params[1]));
-//
-//                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//
-//                HttpResponse response = httpClient.execute(httpPost);
-//
-//                result = inputStreamToString(response.getEntity().getContent()).toString(); //인풋 결과를 문자열로 변환
-//
-//                jsonResult = new JSONArray(result);
-//
-//            } catch (ClientProtocolException e)
+            HttpParams httpParameters = new BasicHttpParams();
+
+            HttpConnectionParams.setConnectionTimeout(httpParameters, 5000);
+
+            HttpConnectionParams.setSoTimeout(httpParameters, 5000);
+
+            HttpClient httpClient = new DefaultHttpClient(httpParameters);
+
+            HttpPost httpPost = new HttpPost(params[0]);  //serverUrl을 http post의 인풋으로 받음.
+
+            String result = "";
+
+            JSONArray jsonResult = null; //json 파싱 결과를 처음엔 null 상태로 초기화
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+
+            try
+            {
+
+                nameValuePairs.add(new BasicNameValuePair("company_name", params[1]));
+
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                HttpResponse response = httpClient.execute(httpPost);
+
+                result = inputStreamToString(response.getEntity().getContent()).toString(); //인풋 결과를 문자열로 변환
+
+                jsonResult = new JSONArray(result);
+
+            } catch (ClientProtocolException e)
+            {
+
+                e.printStackTrace();
+
+            } catch (IOException e)
+            {
+
+                e.printStackTrace();
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+            return jsonResult;
+
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonResult) //requset->response 과정을 거치고 나면
+        {
+
+            super.onPostExecute(jsonResult);
+            returnParsedJsonObject(jsonResult);
+
+//            if (result.equals("") || result == null) //null 인 경우 아예 서버로의 접속이 불가하여 어떤 값도 받지 못한 경우임
 //            {
 //
-//                e.printStackTrace();
+//                Toast.makeText(MainActivity.this, "Server connection failed", Toast.LENGTH_SHORT).show();
 //
-//            } catch (IOException e)
-//            {
+//                return;
 //
-//                e.printStackTrace();
-//
-//            } catch (JSONException e)
-//            {
-//                e.printStackTrace();
 //            }
 //
-//            return jsonResult;
 //
-//        }
+//            int jsonResult = returnParsedJsonObject(result);
 //
-//        @Override
-//        protected void onPreExecute()
-//        {
-//
-//            super.onPreExecute();
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(JSONArray jsonResult) //requset->response 과정을 거치고 나면
-//        {
-//
-//            super.onPostExecute(jsonResult);
-//            returnParsedJsonObject(jsonResult);
-//
-////            if (result.equals("") || result == null) //null 인 경우 아예 서버로의 접속이 불가하여 어떤 값도 받지 못한 경우임
-////            {
-////
-////                Toast.makeText(MainActivity.this, "Server connection failed", Toast.LENGTH_SHORT).show();
-////
-////                return;
-////
-////            }
-////
-////
-////            int jsonResult = returnParsedJsonObject(result);
-////
-////            if (jsonResult == 0) //0이라면 query fail
-////            {
-////
-////                Toast.makeText(MainActivity.this, "No Data about "+company_name, Toast.LENGTH_SHORT).show();
-////
-////                return;
-////
-////            }
-////
-////            if (jsonResult == 1) //1이라면 query success
-////            {
-////                return
-////            }
-//
-//        }
-//
-//        private StringBuilder inputStreamToString(InputStream is) //jsonResult = inputStreamToString(response.getEntity().getContent()).toString();
-//        {
-//
-//            String rLine = "";
-//
-//            StringBuilder answer = new StringBuilder();
-//
-//            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//
-//            try
+//            if (jsonResult == 0) //0이라면 query fail
 //            {
 //
-//                while ((rLine = br.readLine()) != null)
-//                {
-//                    answer.append(rLine);
-//                }
+//                Toast.makeText(MainActivity.this, "No Data about "+company_name, Toast.LENGTH_SHORT).show();
 //
-//            } catch (IOException e)
-//            {
-//                e.printStackTrace();
+//                return;
+//
 //            }
 //
-//            return answer; //json 파싱결과가 저장이 된다.
-//        }
-//
-//    }
+//            if (jsonResult == 1) //1이라면 query success
+//            {
+//                return
+//            }
+
+        }
+
+        private StringBuilder inputStreamToString(InputStream is) //jsonResult = inputStreamToString(response.getEntity().getContent()).toString();
+        {
+
+            String rLine = "";
+
+            StringBuilder answer = new StringBuilder();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            try
+            {
+
+                while ((rLine = br.readLine()) != null)
+                {
+                    answer.append(rLine);
+                }
+
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+            return answer; //json 파싱결과가 저장이 된다.
+        }
+
+    }
 
 }
