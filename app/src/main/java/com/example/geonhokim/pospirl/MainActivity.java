@@ -55,7 +55,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
-    private final String hostaddress = "192.168.0.40";
+    private final String hostaddress = "141.223.122.77";
     private final String serverUrl = "http://"+hostaddress+"/pos/include/testjsonpost.php";
     public TextView tv1, tv2, tv3, tv4;
     private RelativeLayout rl2, rl3;

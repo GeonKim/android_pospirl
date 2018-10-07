@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pospirl</string>
+    <string name="app_name">Senticle</string>
     <string name="menu_favorite">Favorite</string>
     <string name="menu_analysis">Analysis</string>
     <string name="menu_prediction">Prediction</string>
