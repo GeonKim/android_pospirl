@@ -48,8 +48,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
-    private final String serverUrl = "http://192.168.0.40/pos/include/testjsonpost.php";
-    //private final String baseServerUrl = "http://192.168.0.40/pos/include/testjson.php?company_name=";
+    private final String hostaddress = "192.168.0.40";
+    private final String serverUrl = "http://"+hostaddress+"/pos/include/testjsonpost.php";
     public TextView tv1, tv2, tv3;
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
