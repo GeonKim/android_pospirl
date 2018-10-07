@@ -1,7 +1,5 @@
 package com.example.geonhokim.pospirl;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,19 +14,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -54,22 +43,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+    public static String company_name;
+    private final String serverUrl = "http://192.168.0.40/pos/include/testjsonpost.php";
+    //private final String baseServerUrl = "http://192.168.0.40/pos/include/testjson.php?company_name=";
     public TextView tv1, tv2, tv3;
     private BottomNavigationView bottomNavigationView;
-    public  RelativeLayout rl1, rl2, rl3;
-
-//    private final String serverUrl = "http://localhost/pos/include/testjson.php";
-    private final String baseServerUrl = "http://141.223.122.77/pos/include/testjson.php?company_name=";
-    public static String company_name;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
-    private JsonArrayRequest ArrayRequest;
-    private RequestQueue requestQueue;
+    private static float positive, negative;
 
 
     @Override
@@ -130,14 +115,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String s) //검색어 완료시 작동 리스너
             {
-//                jsoncall();
                 company_name = s;
                 tv2.setText("오늘의 뉴스는...");
-                displayPieChart(10f, 2f, 0.5f);
-
                 AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
                 asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
-
+                displayPieChart(positive, negative);
 
                 return true;
             }
@@ -152,9 +134,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void displayPieChart(float positive, float negative, float nuetral)
+    public void displayPieChart(float positive, float negative)
     {
-        PieChart pieChart = (PieChart)findViewById(R.id.piechart);
+        PieChart pieChart = (PieChart) findViewById(R.id.piechart);
         pieChart.setUsePercentValues(true);
 
         //delete legend and description
@@ -167,12 +149,11 @@ public class MainActivity extends AppCompatActivity
 
         yvalues.add(new PieEntry(positive, "긍정"));
         yvalues.add(new PieEntry(negative, "부정"));
-        yvalues.add(new PieEntry(nuetral, "중립"));
 
         PieDataSet dataSet = new PieDataSet(yvalues, "Sentiment of Articles");
 
 
-        dataSet.setColors(new int[] { R.color.postechOrange, R.color.postechRed, R.color.postechGray }, MainActivity.this);
+        dataSet.setColors(new int[]{R.color.postechOrange, R.color.postechRed}, MainActivity.this);
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
 
@@ -182,60 +163,6 @@ public class MainActivity extends AppCompatActivity
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
     }
-
-//    public void jsoncall()
-//    {
-//        String serverUrl = "http://localhost/pos/include/testjson.php?company_name=posco";
-//
-//
-//        ArrayRequest = new JsonArrayRequest(serverUrl, new Response.Listener<JSONArray>()
-//        {
-//            @Override
-//            public void onResponse(JSONArray response)
-//            {
-//
-//                JSONObject jsonObject = null;
-//
-//                String datetime, title, links, keywords;
-//                double scores;
-//
-//
-//                for (int i = 0; i < response.length(); i++)
-//                {
-//                    Toast.makeText(getApplicationContext(),String.valueOf(i),Toast.LENGTH_SHORT).show();
-//                    try
-//                    {
-//                        jsonObject = response.getJSONObject(i);
-//
-//                        datetime = jsonObject.getString("datetime");
-//                        title = jsonObject.getString("title");
-//                        links = jsonObject.getString("links");
-//                        scores = jsonObject.getDouble("scores");
-//                        keywords = jsonObject.getString("keywords");
-//
-//                        CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
-//                        datalist.add(ca);
-//                    } catch (JSONException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                setRvadapter(datalist);
-//            }
-//        }, new Response.ErrorListener()
-//        {
-//            @Override
-//            public void onErrorResponse(VolleyError error)
-//            {
-//
-//            }
-//        });
-//        ArrayRequest.getBodyContentType();
-//        requestQueue = Volley.newRequestQueue(MainActivity.this);
-//        requestQueue.add(ArrayRequest);
-//    }
-
 
     public void setRvadapter(List<CompanyArticle> datalist)
     {
@@ -248,25 +175,29 @@ public class MainActivity extends AppCompatActivity
     private void returnParsedJsonObject(JSONArray jsonResult)
     {
         JSONObject jsonObject = null;
+        datalist.clear();
+        positive = 0;
+        negative = 0;
 
-        int returnedResult = 0;
-
+        //int errorCheck = 1;
 
         String datetime, title, links, keywords;
         double scores;
+
 
         for (int i = 0; i < jsonResult.length(); i++)
         {
             try
             {
                 jsonObject = jsonResult.getJSONObject(i);
-
+                //errorCheck = jsonObject.getInt("errorCheck");
                 datetime = jsonObject.getString("datetime");
                 title = jsonObject.getString("title");
                 links = jsonObject.getString("links");
                 scores = jsonObject.getDouble("scores");
                 keywords = jsonObject.getString("keywords");
 
+                cumulativeScore(scores);
                 CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
                 datalist.add(ca);
 
@@ -274,11 +205,20 @@ public class MainActivity extends AppCompatActivity
             {
                 e.printStackTrace();
             }
+            setRvadapter(datalist);
         }
+        //return errorCheck;
+    }
 
-        setRvadapter(datalist);
-        //return returnedResult;
+    private void cumulativeScore(double scores)
+    {
+        float scoref = (float) scores;
 
+        if(scores >= 0){
+            positive += scoref;
+        } else {
+            negative += Math.abs(scoref);
+        }
     }
 
     private class AsyncDataClass extends AsyncTask<String, Void, JSONArray>
@@ -318,7 +258,6 @@ public class MainActivity extends AppCompatActivity
 
             } catch (ClientProtocolException e)
             {
-
                 e.printStackTrace();
 
             } catch (IOException e)
@@ -346,36 +285,17 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(JSONArray jsonResult) //requset->response 과정을 거치고 나면
         {
-
             super.onPostExecute(jsonResult);
             returnParsedJsonObject(jsonResult);
+            //int errorCheck = returnParsedJsonObject(jsonResult);
 
-//            if (result.equals("") || result == null) //null 인 경우 아예 서버로의 접속이 불가하여 어떤 값도 받지 못한 경우임
+//            if (errorCheck == 1)
 //            {
-//
-//                Toast.makeText(MainActivity.this, "Server connection failed", Toast.LENGTH_SHORT).show();
-//
-//                return;
-//
-//            }
-//
-//
-//            int jsonResult = returnParsedJsonObject(result);
-//
-//            if (jsonResult == 0) //0이라면 query fail
+//                Toast.makeText(MainActivity.this, "파싱 성공", Toast.LENGTH_SHORT).show();
+//            } else
 //            {
-//
-//                Toast.makeText(MainActivity.this, "No Data about "+company_name, Toast.LENGTH_SHORT).show();
-//
-//                return;
-//
+//                Toast.makeText(MainActivity.this, company_name+"에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
 //            }
-//
-//            if (jsonResult == 1) //1이라면 query success
-//            {
-//                return
-//            }
-
         }
 
         private StringBuilder inputStreamToString(InputStream is) //jsonResult = inputStreamToString(response.getEntity().getContent()).toString();

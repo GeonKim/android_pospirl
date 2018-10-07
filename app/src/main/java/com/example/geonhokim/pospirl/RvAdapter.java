@@ -2,6 +2,7 @@ package com.example.geonhokim.pospirl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +18,14 @@ import java.util.List;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 {
     RequestOptions options;
-    private MainActivity mContext;
+    private Context mContext;
     private List<CompanyArticle> datalist;
 
 
 
     public RvAdapter(Context mContext, List datalist)
     {
+        this.mContext = mContext;
         this.datalist = datalist;
         options = new RequestOptions()
                 .centerCrop();
@@ -34,7 +36,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.rv_articles, parent, false);
@@ -47,10 +48,16 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position)
     {
-        String scores = String.valueOf(datalist.get(position).getScores());
+        double score = datalist.get(position).getScores();;
+
+        if (score >= 0) { holder.article_scores.setTextColor(Color.GREEN);
+        } else { holder.article_scores.setTextColor(Color.RED);
+        }
+
+        holder.article_scores.setText(String.valueOf(score));
         holder.article_title.setText(datalist.get(position).getTitle());
         holder.article_keywords.setText(datalist.get(position).getKeywords());
-        holder.article_scores.setText(scores);
+
 
         holder.article_title.setOnClickListener(new View.OnClickListener()
         {
