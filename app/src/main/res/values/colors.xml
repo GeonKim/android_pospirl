@@ -8,5 +8,6 @@
     <color name="postechRed">#FFC80150</color>
     <color name="postechOrange">#FFFFB300</color>
     <color name="postechGray">#FF66665C</color>
+    <color name="loadingPage">#FF3694ED</color>
 
 </resources>

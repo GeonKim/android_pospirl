@@ -1,5 +1,7 @@
 package com.example.geonhokim.pospirl;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,12 +18,17 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -50,7 +57,8 @@ public class MainActivity extends AppCompatActivity
     public static String company_name;
     private final String hostaddress = "192.168.0.40";
     private final String serverUrl = "http://"+hostaddress+"/pos/include/testjsonpost.php";
-    public TextView tv1, tv2, tv3;
+    public TextView tv1, tv2, tv3, tv4;
+    private RelativeLayout rl2, rl3;
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
@@ -62,12 +70,17 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent i = new Intent(MainActivity.this, LoadingActivity.class);
+        startActivity(i);
 
         myrv = (RecyclerView) findViewById(R.id.rv_article);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         tv1 = (TextView) findViewById(R.id.tv1);
         tv2 = (TextView) findViewById(R.id.tv2);
         tv3 = (TextView) findViewById(R.id.tv3);
+        tv4 = (TextView) findViewById(R.id.tv4);
+        rl2 = (RelativeLayout) findViewById(R.id.analysis_content);
+        rl3 = (RelativeLayout) findViewById(R.id.prediction_content);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -75,24 +88,24 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
             {
-                RelativeLayout rl = (RelativeLayout) findViewById(R.id.analysis_content);
+
 
                 switch (item.getItemId())
                 {
                     case R.id.action_favorite:
                         tv1.setVisibility(View.VISIBLE);
-                        rl.setVisibility(View.GONE);
-                        tv3.setVisibility(View.GONE);
+                        rl2.setVisibility(View.GONE);
+                        rl3.setVisibility(View.GONE);
                         break;
                     case R.id.action_search:
                         tv1.setVisibility(View.GONE);
-                        rl.setVisibility(View.VISIBLE);
-                        tv3.setVisibility(View.GONE);
+                        rl2.setVisibility(View.VISIBLE);
+                        rl3.setVisibility(View.GONE);
                         break;
                     case R.id.action_trend:
                         tv1.setVisibility(View.GONE);
-                        rl.setVisibility(View.GONE);
-                        tv3.setVisibility(View.VISIBLE);
+                        rl2.setVisibility(View.GONE);
+                        rl3.setVisibility(View.VISIBLE);
                         break;
                 }
                 return true;
@@ -117,9 +130,14 @@ public class MainActivity extends AppCompatActivity
             {
                 company_name = s;
                 tv2.setText("오늘의 뉴스는...");
+                tv3.setText(company_name+"의 오늘 종가예측 XXX원 ( 95% )");
+                tv4.setText("누적 적중률 90%");
+                tv4.setTextColor(Color.BLUE);
                 AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
                 asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
-                displayPieChart(positive, negative);
+                displayPieChart();
+                displayLineChart();
+
 
                 return true;
             }
@@ -134,7 +152,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void displayPieChart(float positive, float negative)
+    public void displayPieChart()
     {
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
         pieChart.setUsePercentValues(true);
@@ -162,7 +180,54 @@ public class MainActivity extends AppCompatActivity
         pieChart.setCenterTextSize(20f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
+
+        positive = 0;
+        negative = 0;
     }
+
+
+    private void displayLineChart()
+    {
+        LineChart lineChart = (LineChart) findViewById(R.id.linechart);
+
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(4f, 0));
+        entries.add(new Entry(8f, 1));
+        entries.add(new Entry(6f, 2));
+        entries.add(new Entry(2f, 3));
+        entries.add(new Entry(18f, 4));
+        entries.add(new Entry(9f, 5));
+        entries.add(new Entry(16f, 6));
+        entries.add(new Entry(5f, 7));
+        entries.add(new Entry(3f, 8));
+        entries.add(new Entry(7f, 10));
+        entries.add(new Entry(9f, 11));
+
+        LineDataSet dataset = new LineDataSet(entries, "# of Calls");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("January");
+        labels.add("February");
+        labels.add("March");
+        labels.add("April");
+        labels.add("May");
+        labels.add("June");
+        labels.add("July");
+        labels.add("August");
+        labels.add("September");
+        labels.add("October");
+        labels.add("November");
+        labels.add("December");
+
+        LineData data = new LineData(dataset);
+        dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        /*dataset.setDrawCubic(true); //선 둥글게 만들기
+        dataset.setDrawFilled(true); //그래프 밑부분 색칠*/
+
+        lineChart.animateY(1000);
+        lineChart.setData(data);
+    }
+
 
     public void setRvadapter(List<CompanyArticle> datalist)
     {
