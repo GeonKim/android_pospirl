@@ -160,7 +160,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String s) //검색어 완료시 작동 리스너
             {
                 company_name = s;
-                tv2.setText("오늘의 뉴스는...");
+                tv1.setText("오늘의 뉴스는...");
+                tv2.setText("뉴스별 감성분석");
                 tv3.setText(company_name + "의 오늘 종가예측 XXX원 (95%)");
                 tv4.setText("누적 적중률 90%");
                 tv4.setTextColor(Color.BLUE);
