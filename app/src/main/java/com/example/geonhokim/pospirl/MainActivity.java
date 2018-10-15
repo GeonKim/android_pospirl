@@ -22,6 +22,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -191,17 +193,17 @@ public class MainActivity extends AppCompatActivity
         LineChart lineChart = (LineChart) findViewById(R.id.linechart);
 
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(2f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));
-        entries.add(new Entry(16f, 6));
-        entries.add(new Entry(5f, 7));
-        entries.add(new Entry(3f, 8));
-        entries.add(new Entry(7f, 10));
-        entries.add(new Entry(9f, 11));
+        entries.add(new Entry(3, 4f));
+        entries.add(new Entry(4, 8f));
+        entries.add(new Entry(5, 6f));
+        entries.add(new Entry(6, 2f));
+        entries.add(new Entry(7, 18f));
+        entries.add(new Entry(8, 9f));
+        entries.add(new Entry(9, 12f));
+        entries.add(new Entry(10, 5f));
+        entries.add(new Entry(11, 3f));
+        entries.add(new Entry(12, 7f));
+        entries.add(new Entry(13, 9f));
 
         LineDataSet dataset = new LineDataSet(entries, "# of Calls");
 
@@ -223,6 +225,11 @@ public class MainActivity extends AppCompatActivity
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
         /*dataset.setDrawCubic(true); //선 둥글게 만들기
         dataset.setDrawFilled(true); //그래프 밑부분 색칠*/
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yAxisRight = lineChart.getAxisRight();
+        yAxisRight.setEnabled(false);
+
 
         lineChart.animateY(1000);
         lineChart.setData(data);
