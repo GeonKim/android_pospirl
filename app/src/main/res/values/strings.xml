@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Senticle</string>
-    <string name="menu_favorite">Favorite</string>
     <string name="menu_analysis">Analysis</string>
+    <string name="menu_articles">Articles</string>
     <string name="menu_prediction">Prediction</string>
     <string name="long_text">***ThisIsLongTextToTestBottomNavigationBehavior***</string>
     <string name="settings_title">Settings</string>

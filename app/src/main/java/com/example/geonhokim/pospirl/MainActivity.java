@@ -57,15 +57,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
+    private static float positive, negative;
     private final String hostaddress = "141.223.122.77";
-    private final String serverUrl = "http://"+hostaddress+"/pos/include/testjsonpost.php";
+    private final String serverUrl = "http://" + hostaddress + "/pos/include/testjsonpost.php";
     public TextView tv1, tv2, tv3, tv4;
-    private RelativeLayout rl2, rl3;
+    private RelativeLayout rl1, rl2, rl3;
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
-    private static float positive, negative;
-
+//    private MenuItem prevBottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,8 +81,10 @@ public class MainActivity extends AppCompatActivity
         tv2 = (TextView) findViewById(R.id.tv2);
         tv3 = (TextView) findViewById(R.id.tv3);
         tv4 = (TextView) findViewById(R.id.tv4);
-        rl2 = (RelativeLayout) findViewById(R.id.analysis_content);
-        rl3 = (RelativeLayout) findViewById(R.id.prediction_content);
+        rl1 = (RelativeLayout) findViewById(R.id.analysis_contents);
+        rl2 = (RelativeLayout) findViewById(R.id.articles_contents);
+        rl3 = (RelativeLayout) findViewById(R.id.prediction_contents);
+//        prevBottomNavigation = bottomNavigationView.getMenu().getItem(0);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
@@ -94,18 +96,19 @@ public class MainActivity extends AppCompatActivity
 
                 switch (item.getItemId())
                 {
-                    case R.id.action_favorite:
-                        tv1.setVisibility(View.VISIBLE);
+                    case R.id.action_analysis:
+                        rl1.setVisibility(View.VISIBLE);
                         rl2.setVisibility(View.GONE);
                         rl3.setVisibility(View.GONE);
+
                         break;
-                    case R.id.action_search:
-                        tv1.setVisibility(View.GONE);
+                    case R.id.action_articles:
+                        rl1.setVisibility(View.GONE);
                         rl2.setVisibility(View.VISIBLE);
                         rl3.setVisibility(View.GONE);
                         break;
-                    case R.id.action_trend:
-                        tv1.setVisibility(View.GONE);
+                    case R.id.action_prediction:
+                        rl1.setVisibility(View.GONE);
                         rl2.setVisibility(View.GONE);
                         rl3.setVisibility(View.VISIBLE);
                         break;
@@ -114,7 +117,33 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        myrv.setLayoutManager(new LinearLayoutManager(this)
+        {
+            @Override
+            public boolean canScrollVertically()
+            {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally()
+            {
+                return false;
+            }
+        });
+
     }
+//
+//    public void onPageSelected(int position)
+//    {
+//        if (prevBottomNavigation != null)
+//        {
+//            prevBottomNavigation.setChecked(false);
+//        }
+//        prevBottomNavigation = bottomNavigationView.getMenu().getItem(position);
+//        prevBottomNavigation.setChecked(true);
+//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -132,13 +161,12 @@ public class MainActivity extends AppCompatActivity
             {
                 company_name = s;
                 tv2.setText("오늘의 뉴스는...");
-                tv3.setText(company_name+"의 오늘 종가예측 XXX원 ( 95% )");
+                tv3.setText(company_name + "의 오늘 종가예측 XXX원 (95%)");
                 tv4.setText("누적 적중률 90%");
                 tv4.setTextColor(Color.BLUE);
                 AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
                 asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
-                displayPieChart();
-                displayLineChart();
+
 
 
                 return true;
@@ -273,7 +301,7 @@ public class MainActivity extends AppCompatActivity
                 CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
                 datalist.add(ca);
 
-            }catch (JSONException e)
+            } catch (JSONException e)
             {
                 e.printStackTrace();
             }
@@ -286,9 +314,11 @@ public class MainActivity extends AppCompatActivity
     {
         float scoref = (float) scores;
 
-        if(scores >= 0){
+        if (scores >= 0)
+        {
             positive += scoref;
-        } else {
+        } else
+        {
             negative += Math.abs(scoref);
         }
     }
@@ -359,6 +389,8 @@ public class MainActivity extends AppCompatActivity
         {
             super.onPostExecute(jsonResult);
             returnParsedJsonObject(jsonResult);
+            displayPieChart();
+            displayLineChart();
             //int errorCheck = returnParsedJsonObject(jsonResult);
 
 //            if (errorCheck == 1)
@@ -394,6 +426,7 @@ public class MainActivity extends AppCompatActivity
 
             return answer; //json 파싱결과가 저장이 된다.
         }
+
 
     }
 

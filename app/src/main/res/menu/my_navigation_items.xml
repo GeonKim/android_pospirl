@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_favorite"
-        android:enabled="true"
-        android:icon="@drawable/ic_favorite"
-        android:title="@string/menu_favorite"
-        app:showAsAction="ifRoom"  />
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_analysis"
         android:enabled="true"
         android:icon="@drawable/ic_pie_chart"
         android:title="@string/menu_analysis"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_trend"
+        android:id="@+id/action_articles"
+        android:enabled="true"
+        android:icon="@drawable/ic_format_list_bulleted"
+        android:title="@string/menu_articles"
+        app:showAsAction="ifRoom"  />
+
+    <item
+        android:id="@+id/action_prediction"
         android:enabled="true"
         android:icon="@drawable/ic_trending_up"
         android:title="@string/menu_prediction"
