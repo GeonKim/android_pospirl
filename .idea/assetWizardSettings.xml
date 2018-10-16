@@ -81,7 +81,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_bulleted_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/D:/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_open_in_browser_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -91,7 +91,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_format_list_bulleted" />
+                            <entry key="outputName" value="ic_open_in_browser" />
                             <entry key="sourceFile" value="C:\Users\Geonho Kim" />
                           </map>
                         </option>

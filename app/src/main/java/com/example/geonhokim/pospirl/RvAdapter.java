@@ -17,10 +17,13 @@ import java.util.List;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 {
+
+    public static final int HEADER = 0;
+    public static final int CHILD = 1;
+
     RequestOptions options;
     private Context mContext;
     private List<CompanyArticle> datalist;
-
 
 
     public RvAdapter(Context mContext, List datalist)
@@ -36,11 +39,32 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view;
+        View view = null;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.rv_articles, parent, false);
         // click listener here
 
+//        mContext = parent.getContext();
+//        float dp = mContext.getResources().getDisplayMetrics().density;
+//        int subItemPaddingLeft = (int) (18 * dp);
+//        int subItemPaddingTopAndBottom = (int) (5 * dp);
+//        switch (viewType) {
+//            case HEADER:
+//                LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                view = inflater.inflate(R.layout.list_header, parent, false);
+//                ListHeaderViewHolder header = new ListHeaderViewHolder(view);
+//                return header;
+//            case CHILD:
+//                TextView itemTextView = new TextView(context);
+//                itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
+//                itemTextView.setTextColor(0x88000000);
+//                itemTextView.setLayoutParams(
+//                        new ViewGroup.LayoutParams(
+//                                ViewGroup.LayoutParams.MATCH_PARENT,
+//                                ViewGroup.LayoutParams.WRAP_CONTENT));
+//                return new RecyclerView.ViewHolder(itemTextView) {
+//                };
+//        }
 
         return new MyViewHolder(view);
     }

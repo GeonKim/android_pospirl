@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        myrv.setLayoutManager(new LinearLayoutManager(this)
+        myrv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         {
             @Override
             public boolean canScrollVertically()
@@ -131,6 +131,10 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
+
+
+
+
 
     }
 //
@@ -161,7 +165,7 @@ public class MainActivity extends AppCompatActivity
             {
                 company_name = s;
                 tv1.setText("오늘의 뉴스는...");
-                tv2.setText("뉴스별 감성분석");
+                tv2.setText("뉴스분석");
                 tv3.setText(company_name + "의 오늘 종가예측 XXX원 (95%)");
                 tv4.setText("누적 적중률 90%");
                 tv4.setTextColor(Color.BLUE);
@@ -276,7 +280,7 @@ public class MainActivity extends AppCompatActivity
     private void returnParsedJsonObject(JSONArray jsonResult)
     {
         JSONObject jsonObject = null;
-        datalist.clear();
+//        datalist.clear(); //파싱할때마다 데이터리스트 초기화. 안해주면 데이터 누적됨.
         positive = 0;
         negative = 0;
 
