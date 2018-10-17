@@ -3,8 +3,9 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
     android:layout_marginRight="12dp"
     android:layout_marginLeft="12dp"
@@ -17,78 +18,148 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
-        android:orientation="vertical"
+        android:background="@drawable/shadow"
         android:elevation="8dp"
-        android:background="@drawable/shadow">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/star_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:background="@null"
-            app:srcCompat="@drawable/ic_star" />
+
+
 
         <Button
             android:id="@+id/article_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_toEndOf="@+id/star_btn"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@null"
             android:ellipsize="end"
             android:maxLines="1"
-            android:minWidth="0dp"
             android:minHeight="0dp"
+            android:minWidth="0dp"
             android:text="article title"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17dp"
-            android:textStyle="italic"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/key"
+        <ImageView
+            android:id="@+id/expandable_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="29dp"
-            android:layout_marginTop="31dp"
-            android:text="키워드 : "
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/article_keywords"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="31dp"
-            android:layout_marginEnd="148dp"
-            android:layout_toEndOf="@+id/key"
-            android:text="호조, 상승, 매수"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_expand_more" />
 
-        <TextView
-            android:id="@+id/article_scores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="6dp"
-            android:text="article_scores"
-            android:textColor="@android:color/holo_blue_bright"
-            android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/article_title"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="visible">
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3">
+
+
+                    <TextView
+                        android:id="@+id/Prediction_Prob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Prediction Prob"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/barscore"
+                        android:layout_width="match_parent"
+                        android:layout_height="63dp"
+                        android:layout_below="@+id/Prediction_Prob" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/up_down_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/up_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Up"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/down_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Down"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/barchart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_below="@+id/up_down_layout" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/highlight_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Text with highlighted words"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/highlight_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:text="this is highlighted texts"
+                android:textColor="@android:color/black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
