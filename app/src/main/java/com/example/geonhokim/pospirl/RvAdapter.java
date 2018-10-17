@@ -1,14 +1,14 @@
 package com.example.geonhokim.pospirl;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -18,8 +18,7 @@ import java.util.List;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 {
 
-    public static final int HEADER = 0;
-    public static final int CHILD = 1;
+    public static int cnt = 0;
 
     RequestOptions options;
     private Context mContext;
@@ -42,55 +41,44 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         View view = null;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.rv_articles, parent, false);
-        // click listener here
-
-//        mContext = parent.getContext();
-//        float dp = mContext.getResources().getDisplayMetrics().density;
-//        int subItemPaddingLeft = (int) (18 * dp);
-//        int subItemPaddingTopAndBottom = (int) (5 * dp);
-//        switch (viewType) {
-//            case HEADER:
-//                LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                view = inflater.inflate(R.layout.list_header, parent, false);
-//                ListHeaderViewHolder header = new ListHeaderViewHolder(view);
-//                return header;
-//            case CHILD:
-//                TextView itemTextView = new TextView(context);
-//                itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
-//                itemTextView.setTextColor(0x88000000);
-//                itemTextView.setLayoutParams(
-//                        new ViewGroup.LayoutParams(
-//                                ViewGroup.LayoutParams.MATCH_PARENT,
-//                                ViewGroup.LayoutParams.WRAP_CONTENT));
-//                return new RecyclerView.ViewHolder(itemTextView) {
-//                };
-//        }
 
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position)
+    public void onBindViewHolder(final MyViewHolder holder, final int position)
     {
-        double score = datalist.get(position).getScores();;
+        final RvAdapter.MyViewHolder itemController = (RvAdapter.MyViewHolder) holder;
+        cnt = 0;
+//        double score = datalist.get(position).getScores();;
 
-        if (score >= 0) { holder.article_scores.setTextColor(Color.GREEN);
-        } else { holder.article_scores.setTextColor(Color.RED);
-        }
+//        if (score >= 0) { holder.article_scores.setTextColor(Color.GREEN);
+//        } else { holder.article_scores.setTextColor(Color.RED);
+//        }
 
-        holder.article_scores.setText(String.valueOf(score));
-        holder.article_title.setText(datalist.get(position).getTitle());
-        holder.article_keywords.setText(datalist.get(position).getKeywords());
+//        holder.article_scores.setText(String.valueOf(score));
+        itemController.article_btn.setText(datalist.get(position).getTitle());
+        itemController.highlighted_texts.setText(R.string.long_text);
 
-
-        holder.article_title.setOnClickListener(new View.OnClickListener()
+        itemController.article_btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String links = datalist.get(position).getLinks();
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(links));
-                mContext.startActivity(i);
+                cnt += 1;
+
+                if ( cnt % 2 == 0 ) //짝수면 차트를 숨기고 아래 화살표
+                {
+                    itemController.expandable_img.setImageResource(R.drawable.ic_expand_more);
+                    itemController.article_lime_analysis.setVisibility(View.GONE);
+                }else               //홀수면 차트를 보여주고 위 화살표
+                {
+                    itemController.expandable_img.setImageResource(R.drawable.ic_expand_less);
+                    itemController.article_lime_analysis.setVisibility(View.VISIBLE);
+                }
+//                String links = datalist.get(position).getLinks();
+//                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(links));
+//                mContext.startActivity(i);
             }
         });
     }
@@ -104,16 +92,19 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
-        Button article_title;
-        TextView article_keywords, article_scores;
-
+        Button article_btn;
+        ImageView expandable_img;
+        LinearLayout article_lime_analysis;
+        TextView highlighted_texts;
 
         public MyViewHolder(View itemView)
         {
             super(itemView);
-            article_title = itemView.findViewById(R.id.article_title);
-            article_keywords = itemView.findViewById(R.id.article_keywords);
-            article_scores = itemView.findViewById(R.id.article_scores);
+            article_btn = itemView.findViewById(R.id.article_btn);
+            expandable_img = itemView.findViewById(R.id.expandable_img);
+            article_lime_analysis = itemView.findViewById(R.id.article_lime_analysis);
+            highlighted_texts = itemView.findViewById(R.id.highlight_text);
+            highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
         }
     }
 }

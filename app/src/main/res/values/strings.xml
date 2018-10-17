@@ -3,9 +3,39 @@
     <string name="menu_analysis">Analysis</string>
     <string name="menu_articles">Articles</string>
     <string name="menu_prediction">Prediction</string>
-    <string name="long_text">***ThisIsLongTextToTestBottomNavigationBehavior***</string>
     <string name="settings_title">Settings</string>
     <string name="search_hint">Search Company...</string>
     <string name="search_title">Search</string>
+    <string name="long_text">***ThisIsLongTextToTest***1
+        ***ThisIsLongTextToTest***2
+        ***ThisIsLongTextToTest***3
+        ***ThisIsLongTextToTest***4
+        ***ThisIsLongTextToTest***5
+        ***ThisIsLongTextToTest***6
+        ***ThisIsLongTextToTest***7
+        ***ThisIsLongTextToTest***8
+        ***ThisIsLongTextToTest***9
+        ***ThisIsLongTextToTest***10
+        ***ThisIsLongTextToTest***11
+        ***ThisIsLongTextToTest***12
+        ***ThisIsLongTextToTest***13
+        ***ThisIsLongTextToTest***14
+        ***ThisIsLongTextToTest***15
+        ***ThisIsLongTextToTest***16
+        ***ThisIsLongTextToTest***17
+        ***ThisIsLongTextToTest***18
+        ***ThisIsLongTextToTest***19
+        ***ThisIsLongTextToTest***20
+        ***ThisIsLongTextToTest***21
+        ***ThisIsLongTextToTest***22
+        ***ThisIsLongTextToTest***23
+        ***ThisIsLongTextToTest***24
+        ***ThisIsLongTextToTest***25
+        ***ThisIsLongTextToTest***26
+        ***ThisIsLongTextToTest***27
+        ***ThisIsLongTextToTest***28
+        ***ThisIsLongTextToTest***29
+        ***ThisIsLongTextToTest***30
+    </string>
 
 </resources>
