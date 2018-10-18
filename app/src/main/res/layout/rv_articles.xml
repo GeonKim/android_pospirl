@@ -71,7 +71,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <LinearLayout
@@ -94,7 +94,7 @@
                         android:textSize="15sp" />
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
-                        android:id="@+id/barscore"
+                        android:id="@+id/probChart"
                         android:layout_width="match_parent"
                         android:layout_height="63dp"
                         android:layout_below="@+id/Prediction_Prob" />
@@ -120,7 +120,8 @@
                             android:layout_weight="1"
                             android:text="Up"
                             android:textAlignment="center"
-                            android:textColor="@android:color/black"
+                            android:textStyle="bold"
+                            android:textColor="@color/postechOrange"
                             android:textSize="15sp" />
 
                         <TextView
@@ -130,13 +131,14 @@
                             android:layout_weight="1"
                             android:text="Down"
                             android:textAlignment="center"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="bold"
                             android:textSize="15sp" />
 
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
-                        android:id="@+id/barchart"
+                        android:id="@+id/featureChart"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_below="@+id/up_down_layout" />

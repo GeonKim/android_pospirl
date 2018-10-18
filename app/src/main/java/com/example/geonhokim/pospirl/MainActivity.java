@@ -172,8 +172,6 @@ public class MainActivity extends AppCompatActivity
                 AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
                 asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
 
-
-
                 return true;
             }
 
@@ -280,14 +278,16 @@ public class MainActivity extends AppCompatActivity
     private void returnParsedJsonObject(JSONArray jsonResult)
     {
         JSONObject jsonObject = null;
-//        datalist.clear(); //파싱할때마다 데이터리스트 초기화. 안해주면 데이터 누적됨.
+        datalist.clear(); //파싱할때마다 데이터리스트 초기화. 안해주면 데이터 누적됨.
         positive = 0;
         negative = 0;
 
         //int errorCheck = 1;
 
-        String datetime, title, links, keywords;
-        double scores;
+        String title, links, contents;
+        double scores, up_prob, down_prob;
+        String word1, word2, word3, word4, word5, word6;
+        double prob1, prob2, prob3, prob4, prob5, prob6;
 
 
         for (int i = 0; i < jsonResult.length(); i++)
@@ -296,14 +296,27 @@ public class MainActivity extends AppCompatActivity
             {
                 jsonObject = jsonResult.getJSONObject(i);
                 //errorCheck = jsonObject.getInt("errorCheck");
-                datetime = jsonObject.getString("datetime");
                 title = jsonObject.getString("title");
                 links = jsonObject.getString("links");
+                contents = jsonObject.getString("contents");
                 scores = jsonObject.getDouble("scores");
-                keywords = jsonObject.getString("keywords");
+                up_prob = jsonObject.getDouble("up_prob");
+                down_prob =jsonObject.getDouble("down_prob");
+                word1 = jsonObject.getString("word1");
+                word2 = jsonObject.getString("word2");
+                word3 = jsonObject.getString("word3");
+                word4 = jsonObject.getString("word4");
+                word5 = jsonObject.getString("word5");
+                word6 = jsonObject.getString("word6");
+                prob1 = jsonObject.getDouble("prob1");
+                prob2 = jsonObject.getDouble("prob2");
+                prob3 = jsonObject.getDouble("prob3");
+                prob4 = jsonObject.getDouble("prob4");
+                prob5 = jsonObject.getDouble("prob5");
+                prob6 = jsonObject.getDouble("prob6");
 
                 cumulativeScore(scores);
-                CompanyArticle ca = new CompanyArticle(datetime, title, links, scores, keywords);
+                CompanyArticle ca = new CompanyArticle(title, links, contents, scores, up_prob, down_prob, word1, word2, word3, word4, word5, word6, prob1, prob2, prob3, prob4, prob5, prob6);
                 datalist.add(ca);
 
             } catch (JSONException e)
