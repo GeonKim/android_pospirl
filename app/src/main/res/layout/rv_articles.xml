@@ -80,9 +80,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:layout_weight="3">
-
 
                     <TextView
                         android:id="@+id/Prediction_Prob"
@@ -93,18 +92,45 @@
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="상승"
+                            android:textColor="@color/postechOrange"/>
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView"
+                            android:text="하락"
+                            android:textColor="@color/colorPrimaryDark"/>
+
+
+                    </LinearLayout>
+
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/probChart"
                         android:layout_width="match_parent"
                         android:layout_height="63dp"
-                        android:layout_below="@+id/Prediction_Prob" />
+                        android:layout_centerInParent="true" />
 
                 </RelativeLayout>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <LinearLayout
@@ -139,9 +165,11 @@
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/featureChart"
+                        android:layout_below="@+id/up_down_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_below="@+id/up_down_layout" />
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 

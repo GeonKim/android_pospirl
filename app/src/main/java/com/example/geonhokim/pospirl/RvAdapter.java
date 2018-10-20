@@ -17,9 +17,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +70,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         String newStr = highlightText(str, position);
 
         itemController.article_btn.setText(datalist.get(position).getTitle());
-        itemController.highlighted_texts.setText(fromHtml(newStr));
+        itemController.highlighted_texts.setText(str);
+
         itemController.article_btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -151,6 +155,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
     public void plotFeatureChart(HorizontalBarChart featureChart, int position)
     {
+
+
         float prob1 = (float) datalist.get(position).getProb1();
         float prob2 = (float) datalist.get(position).getProb2();
         float prob3 = (float) datalist.get(position).getProb3();
@@ -167,47 +173,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         String word5 = datalist.get(position).getWord5();
         String word6 = datalist.get(position).getWord6();
 
-//
-//
-//        ArrayList<BarEntry> entries0 = new ArrayList<>();
-//        entries0.add(new BarEntry(7, -1f));
-//        ArrayList<BarEntry> entries1 = new ArrayList<>();
-//        entries0.add(new BarEntry(6, prob1));
-//        ArrayList<BarEntry> entries2 = new ArrayList<>();
-//        entries0.add(new BarEntry(5, prob2));
-//        ArrayList<BarEntry> entries3 = new ArrayList<>();
-//        entries0.add(new BarEntry(4, prob3));
-//        ArrayList<BarEntry> entries4 = new ArrayList<>();
-//        entries0.add(new BarEntry(3, prob4));
-//        ArrayList<BarEntry> entries5 = new ArrayList<>();
-//        entries0.add(new BarEntry(2, prob5));
-//        ArrayList<BarEntry> entries6 = new ArrayList<>();
-//        entries0.add(new BarEntry(1, prob6));
-//        ArrayList<BarEntry> entries7 = new ArrayList<>();
-//        entries0.add(new BarEntry(0, 1f));
-//
-//
-//        List<BarDataSet> bars = new ArrayList<BarDataSet>();
-//        BarDataSet dataset0 = new BarDataSet(entries0, "");
-//        dataset0.setColor(R.color.transparent);
-//        bars.add(dataset0);
-//
-//
-//        BarDataSet dataset1 = new BarDataSet(entries1, word1);
-//        dataset1.setColor(Color.BLUE);
-//        bars.add(dataset1);
-//        BarDataSet dataset3 = new BarDataSet(entries3, "Third");
-//        dataset3.setColor(Color.GREEN);
-//        bars.add(dataset3);
-//        BarDataSet dataset4 = new BarDataSet(entries4, "Fourth");
-//        dataset4.setColor(Color.GRAY);
-//        bars.add(dataset4);
-//        BarDataSet dataset5 = new BarDataSet(entries5, "Fifth");
-//        dataset5.setColor(Color.BLACK);
-//        bars.add(dataset5);
-//        BarData data = new BarData(bars);
-//        chart.setData(data);
-
+        String[] labels = {word1, word2, word3, word4, word5, word6};
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(6, prob1));
@@ -216,6 +182,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         entries.add(new BarEntry(3, prob4));
         entries.add(new BarEntry(2, prob5));
         entries.add(new BarEntry(1, prob6));
+
+
 
         BarDataSet bardataset = new BarDataSet(entries, "Feature Chart");
 
@@ -230,20 +198,48 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         }
 
         bardataset.setColors(colorArray);
+        bardataset.setValueTextSize(10f); //y값 크기
 
 
         BarData fdata = new BarData(bardataset);
 
-        featureChart.animateY(1000);
+//        featureChart.getXAxis().setValueFormatter(new LabelFormatter(labels));
+        featureChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED); // 그림 좌우에 X-value 표시
+
+
         featureChart.getDescription().setEnabled(false); // Hide the description
-        featureChart.getAxisLeft().setDrawLabels(false);
-        featureChart.getAxisRight().setDrawLabels(false);
-        featureChart.getXAxis().setDrawLabels(false);
-        featureChart.getLegend().setEnabled(false);   // Hide the legend
+        featureChart.getAxisLeft().setDrawLabels(false); // 그림의 윗부분 수치(Y-value) 사라짐
+        featureChart.getAxisRight().setDrawLabels(false); // 그림 아랫부분 수치(Y-value) 사라짐
+//        featureChart.getXAxis().setDrawLabels(false); // 그림 (X-value) 라벨 사라짐
+        featureChart.getLegend().setEnabled(false);   // 범례 사라짐
+        featureChart.setDrawValueAboveBar(true); // 그림에 중첩되어 value가 그려질 수 있음. 그러다가 그래프 밖으로 삐져나오기도 함
+//        featureChart.setClipValuesToContent(true); // 그래프 밖에 value 삐져나오지 않음.
 
-        fdata.setValueTextSize(20f);
+//        fdata.setValueTextSize(20f);
 
+        float newLimit = fdata.getYMax() + (float) 1.03;
+        featureChart.getAxisLeft().setAxisMinimum((float)-0.1); // 그래프 표현범위 지정
+        featureChart.getAxisLeft().setAxisMaximum((float)0.1); // 그래프 표현범위 지정
+        featureChart.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
+        featureChart.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
+        featureChart.getXAxis().setDrawGridLines(false); // x그리드 제거
+
+        featureChart.animateY(1000);
         featureChart.setData(fdata);
+    }
+
+    public class LabelFormatter implements IAxisValueFormatter
+    {
+        private final String[] mLabels;
+
+        public LabelFormatter(String[] labels) {
+            mLabels = labels;
+        }
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mLabels[(int) value];
+        }
     }
 
     public void plotProbChart(HorizontalBarChart probChart, int position)
@@ -304,4 +300,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
         }
     }
+
+
 }
