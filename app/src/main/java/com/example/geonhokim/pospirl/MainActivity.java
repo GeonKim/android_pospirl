@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
     private static float positive, negative;
-    private final String hostaddress = "192.168.0.74";
+    private final String hostaddress = "182.215.14.185";
     private final String serverUrl = "http://" + hostaddress + "/pos/include/testjsonpost.php";
     public TextView tv1, tv2, tv3, tv4;
     private RelativeLayout rl1, rl2, rl3;
@@ -271,19 +272,21 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void returnParsedJsonObject(JSONArray jsonResult)
+    private int returnParsedJsonObject(JSONArray jsonResult)
     {
         JSONObject jsonObject = null;
         datalist.clear(); //파싱할때마다 데이터리스트 초기화. 안해주면 데이터 누적됨.
         positive = 0;
         negative = 0;
 
-        //int errorCheck = 1;
+
 
         String title, links, contents;
         double scores, up_prob, down_prob;
         String word1, word2, word3, word4, word5, word6;
         double prob1, prob2, prob3, prob4, prob5, prob6;
+
+        int errorCheck = 0;
 
 
         for (int i = 0; i < jsonResult.length(); i++)
@@ -291,7 +294,6 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 jsonObject = jsonResult.getJSONObject(i);
-                //errorCheck = jsonObject.getInt("errorCheck");
                 title = jsonObject.getString("title");
                 links = jsonObject.getString("links");
                 contents = jsonObject.getString("contents");
@@ -310,10 +312,13 @@ public class MainActivity extends AppCompatActivity
                 prob4 = jsonObject.getDouble("prob4");
                 prob5 = jsonObject.getDouble("prob5");
                 prob6 = jsonObject.getDouble("prob6");
+                errorCheck = jsonObject.getInt("errorCheck");
 
                 cumulativeScore(scores);
                 CompanyArticle ca = new CompanyArticle(title, links, contents, scores, up_prob, down_prob, word1, word2, word3, word4, word5, word6, prob1, prob2, prob3, prob4, prob5, prob6);
                 datalist.add(ca);
+
+
 
             } catch (JSONException e)
             {
@@ -321,7 +326,8 @@ public class MainActivity extends AppCompatActivity
             }
             setRvadapter(datalist);
         }
-        //return errorCheck;
+
+        return errorCheck;
     }
 
     private void cumulativeScore(double scores)
@@ -402,18 +408,18 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(JSONArray jsonResult) //requset->response 과정을 거치고 나면
         {
             super.onPostExecute(jsonResult);
-            returnParsedJsonObject(jsonResult);
-            displayPieChart();
-            displayLineChart();
-            //int errorCheck = returnParsedJsonObject(jsonResult);
+//            returnParsedJsonObject(jsonResult);
+            int errorCheck = returnParsedJsonObject(jsonResult);
 
-//            if (errorCheck == 1)
-//            {
-//                Toast.makeText(MainActivity.this, "파싱 성공", Toast.LENGTH_SHORT).show();
-//            } else
-//            {
-//                Toast.makeText(MainActivity.this, company_name+"에 대한 정보가 없습니다.", Toast.LENGTH_SHORT).show();
-//            }
+            if (errorCheck == 1)
+            {
+                Toast.makeText(MainActivity.this, company_name+"에 대한 정보를 찾았습니다.", Toast.LENGTH_SHORT).show();
+                displayPieChart();
+                displayLineChart();
+            } else
+            {
+                Toast.makeText(MainActivity.this, company_name+"에 대한 정보가 없습니다.\nposco 또는 sk hynix로 검색해주세요.", Toast.LENGTH_SHORT).show();
+            }
         }
 
         private StringBuilder inputStreamToString(InputStream is) //jsonResult = inputStreamToString(response.getEntity().getContent()).toString();
