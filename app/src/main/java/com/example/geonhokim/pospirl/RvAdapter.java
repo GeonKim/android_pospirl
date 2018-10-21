@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -331,32 +329,32 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
             highlighted_texts = itemView.findViewById(R.id.highlight_text);
             featureChart = (HorizontalBarChart) itemView.findViewById(R.id.featureChart);
             probChart = (HorizontalBarChart) itemView.findViewById(R.id.probChart);
-            scrollView = (ScrollView) itemView.findViewById(R.id.childScroll);
+//            scrollView = (ScrollView) itemView.findViewById(R.id.childScroll);
 
-            scrollView.setOnTouchListener(new View.OnTouchListener() {
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(false);
-
-                    return false;
-                }
-            });
-
-
-
-            highlighted_texts.setOnTouchListener(new View.OnTouchListener()
-            {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent)
-                {
-                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(true);
-                    return false;
-                }
-            });
-
-            highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
+//            scrollView.setOnTouchListener(new View.OnTouchListener() {
+//
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//
+//                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(false);
+//
+//                    return false;
+//                }
+//            });
+//
+//
+//
+//            highlighted_texts.setOnTouchListener(new View.OnTouchListener()
+//            {
+//                @Override
+//                public boolean onTouch(View view, MotionEvent motionEvent)
+//                {
+//                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(true);
+//                    return false;
+//                }
+//            });
+//
+//            highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
         }
     }
 
