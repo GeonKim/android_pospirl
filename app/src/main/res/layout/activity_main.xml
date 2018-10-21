@@ -8,13 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.geonhokim.pospirl.MainActivity">
 
-
+<!--
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarFadeDuration="0">
-
+-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -126,8 +126,9 @@
 
             </RelativeLayout>
         </RelativeLayout>
+            <!--
     </android.support.v4.widget.NestedScrollView>
-
+-->
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_gravity="bottom"

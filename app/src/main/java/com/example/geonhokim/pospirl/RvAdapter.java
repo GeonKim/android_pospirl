@@ -201,7 +201,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 //        featureChart.setClipValuesToContent(true); // 그래프 밖에 value 삐져나오지 않음.
 
         float newLimit = data2.getYMax() + (float) 0.03;
-        probChart.getAxisLeft().setAxisMinimum(-0.1f); // 그래프 표현범위 지정
+        probChart.getAxisLeft().setAxisMinimum(-0.03f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setAxisMaximum(1.1f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
         probChart.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
@@ -333,6 +333,17 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
             probChart = (HorizontalBarChart) itemView.findViewById(R.id.probChart);
             scrollView = (ScrollView) itemView.findViewById(R.id.childScroll);
 
+            scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(false);
+
+                    return false;
+                }
+            });
+
 
 
             highlighted_texts.setOnTouchListener(new View.OnTouchListener()
@@ -340,13 +351,10 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent)
                 {
-                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                    highlighted_texts.getParent().requestDisallowInterceptTouchEvent(true);
                     return false;
                 }
             });
-
-
-
 
             highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
         }
