@@ -11,12 +11,9 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarFadeDuration="0"
+        android:layout_height="wrap_content"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarThumbVertical="@color/postechOrange"
-        android:scrollbarTrackVertical="@color/postechRed"
-        android:scrollbarSize="10dp">
+        android:scrollbarFadeDuration="0">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,7 +66,7 @@
                     android:text="Articles"
                     android:textSize="25dp"
                     android:textStyle="bold" />
-            <!--
+                <!--
                 <ImageButton
                     android:id="@+id/renew_btn"
                     android:layout_width="wrap_content"

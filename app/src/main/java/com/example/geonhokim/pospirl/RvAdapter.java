@@ -10,11 +10,13 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -66,14 +68,16 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         plotFeatureChart(itemController.featureChart, position);
         plotProbChart(itemController.probChart, position);
 
+
         cnt = 0;
 
         String str = datalist.get(position).getContents();
         String newStr = highlightText(str, position);
 
+
         itemController.article_btn.setText(datalist.get(position).getTitle());
         itemController.highlighted_title.setText(datalist.get(position).getTitle());
-        itemController.highlighted_texts.setText(str);
+        itemController.highlighted_texts.setText(fromHtml(str));
 
         itemController.article_btn.setOnClickListener(new View.OnClickListener()
         {
@@ -197,7 +201,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 //        featureChart.setClipValuesToContent(true); // 그래프 밖에 value 삐져나오지 않음.
 
         float newLimit = data2.getYMax() + (float) 0.03;
-        probChart.getAxisLeft().setAxisMinimum(0f); // 그래프 표현범위 지정
+        probChart.getAxisLeft().setAxisMinimum(-0.1f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setAxisMaximum(1.1f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
         probChart.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
@@ -312,6 +316,10 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         TextView highlighted_title, highlighted_texts;
         HorizontalBarChart featureChart;
         HorizontalBarChart probChart;
+        ScrollView scrollView;
+
+
+
 
         public MyViewHolder(View itemView)
         {
@@ -321,10 +329,26 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
             article_lime_analysis = itemView.findViewById(R.id.article_lime_analysis);
             highlighted_title = itemView.findViewById(R.id.highlight_title);
             highlighted_texts = itemView.findViewById(R.id.highlight_text);
-            highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
             featureChart = (HorizontalBarChart) itemView.findViewById(R.id.featureChart);
             probChart = (HorizontalBarChart) itemView.findViewById(R.id.probChart);
+            scrollView = (ScrollView) itemView.findViewById(R.id.childScroll);
 
+
+
+            highlighted_texts.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent)
+                {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+
+
+
+
+            highlighted_texts.setMovementMethod(new ScrollingMovementMethod());
         }
     }
 
