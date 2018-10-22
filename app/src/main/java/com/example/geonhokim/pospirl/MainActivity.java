@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity
         pieChart.setCenterTextSize(20f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
-
         positive = 0;
         negative = 0;
     }

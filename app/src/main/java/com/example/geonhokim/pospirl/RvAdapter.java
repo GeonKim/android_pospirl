@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.Spanned;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,12 +70,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         cnt = 0;
 
         String str = datalist.get(position).getContents();
-        String newStr = highlightText(str, position);
+//        String newStr = highlightText(str, position);
+
+        SpannableString newStr = new SpannableString(str);
+        newStr.setSpan(new BackgroundColorSpan(Color.YELLOW), 0, 11, 0);
 
 
         itemController.article_btn.setText(datalist.get(position).getTitle());
         itemController.highlighted_title.setText(datalist.get(position).getTitle());
-        itemController.highlighted_texts.setText(fromHtml(str));
+        itemController.highlighted_texts.setText(newStr);
 
         itemController.article_btn.setOnClickListener(new View.OnClickListener()
         {
@@ -157,13 +160,13 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         return newStr;
     }
 
-    public static Spanned fromHtml(String source) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
-            // noinspection deprecation
-            return Html.fromHtml(source);
-        }
-        return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
-    }
+//    public static Spanned fromHtml(String source) {
+//        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+//            // noinspection deprecation
+//            return Html.fromHtml(source);
+//        }
+//        return Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY);
+//    }
 
     public void plotProbChart(HorizontalBarChart probChart, int position)
     {
@@ -198,14 +201,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         probChart.setDrawValueAboveBar(true); // 그림에 중첩되어 value가 그려질 수 있음.
 //        featureChart.setClipValuesToContent(true); // 그래프 밖에 value 삐져나오지 않음.
 
-        float newLimit = data2.getYMax() + (float) 0.03;
-        probChart.getAxisLeft().setAxisMinimum(-0.03f); // 그래프 표현범위 지정
+        //final float newLimit = data2.getYMax() + (float) 0.03;
+        probChart.getAxisLeft().setAxisMinimum(-0.05f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setAxisMaximum(1.1f); // 그래프 표현범위 지정
         probChart.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
         probChart.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
         probChart.getXAxis().setDrawGridLines(false); // x그리드 제거
-
         probChart.animateY(1000);
+
+
         probChart.setData(data2);
 
     }
@@ -279,8 +283,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 //        data.setValueTextSize(20f);
 
         float newLimit = data.getYMax() + (float) 0.03;
-        featureChart.getAxisLeft().setAxisMinimum(-0.1f); // 그래프 표현범위 지정
-        featureChart.getAxisLeft().setAxisMaximum(0.1f); // 그래프 표현범위 지정
+        featureChart.getAxisLeft().setAxisMinimum(-newLimit); // 그래프 표현범위 지정
+        featureChart.getAxisLeft().setAxisMaximum(newLimit); // 그래프 표현범위 지정
         featureChart.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
         featureChart.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
         featureChart.getXAxis().setDrawGridLines(false); // x그리드 제거
