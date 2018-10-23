@@ -117,7 +117,7 @@
                         android:text="상승"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:textColor="@color/postechOrange"
+                        android:textColor="@color/lime_yellow"
                         android:textSize="16dp" />
 
                     <TextView
@@ -127,7 +127,7 @@
                         android:layout_weight="1"
                         android:text="하락"
                         android:textAlignment="center"
-                        android:textColor="@color/postechGray"
+                        android:textColor="@color/lime_blue"
                         android:textStyle="bold"
                         android:textSize="16dp" />
 

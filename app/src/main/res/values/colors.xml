@@ -9,6 +9,9 @@
     <color name="postechOrange">#FFFFB300</color>
     <color name="postechGray">#FF66665C</color>
     <color name="loadingPage">#FF3694ED</color>
-    <color name="transparent">#00000000</color>
+    <color name="lime_blue">#FF5F9EA0</color>
+    <color name="lime_yellow">#FFFFB300</color>
+
+
 
 </resources>
