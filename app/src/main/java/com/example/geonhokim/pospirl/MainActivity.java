@@ -134,17 +134,6 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-//
-//    public void onPageSelected(int position)
-//    {
-//        if (prevBottomNavigation != null)
-//        {
-//            prevBottomNavigation.setChecked(false);
-//        }
-//        prevBottomNavigation = bottomNavigationView.getMenu().getItem(position);
-//        prevBottomNavigation.setChecked(true);
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -277,7 +266,6 @@ public class MainActivity extends AppCompatActivity
         datalist.clear(); //파싱할때마다 데이터리스트 초기화. 안해주면 데이터 누적됨.
         positive = 0;
         negative = 0;
-
 
 
         String title, links, contents;

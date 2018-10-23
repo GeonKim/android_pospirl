@@ -2,11 +2,6 @@ package com.example.geonhokim.pospirl;
 
 public class CompanyArticle
 {
-//    String title, links;
-//    double up_prob, down_prob;
-//    String word1, word2, word3, word4, word5, word6;
-//    double prob1, prob2, prob3, prob4, prob5, prob6;
-
 
     private String title;
     private String links;

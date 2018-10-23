@@ -211,8 +211,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         bardataset.setColors(colorArray);
         bardataset.setValueTextSize(12f); //y값 크기
 
-
-
         BarData data = new BarData(bardataset);
         String[] labels = {targetStrings[5], targetStrings[4], targetStrings[3], targetStrings[2], targetStrings[1], targetStrings[0]};
 
