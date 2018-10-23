@@ -23,6 +23,6 @@ public class LoadingActivity extends Activity
             {
                 finish();
             }
-        }, 2000);
+        }, 3000);
     }
 }

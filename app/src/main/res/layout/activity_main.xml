@@ -19,12 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <RelativeLayout
                 android:id="@+id/analysis_contents"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv1"
@@ -41,12 +40,10 @@
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/piechart"
                     android:layout_width="match_parent"
-                    android:layout_height="330dp"
+                    android:layout_height="270dp"
                     android:layout_marginTop="70dp">
 
                 </com.github.mikephil.charting.charts.PieChart>
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -136,10 +133,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@color/bottom_section_color"
         app:itemTextColor="@color/bottom_section_color"
         app:layout_behavior="com.example.geonhokim.pospirl.BottomNavigationBehavior"
         app:menu="@menu/my_navigation_items" />
+
 
 </android.support.design.widget.CoordinatorLayout>

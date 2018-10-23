@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#FFc48bef</color>
+    <color name="colorPrimaryDark">#FF8650af</color>
     <color name="colorAccent">#FF4081</color>
     <color name="navigation_item_color">#000000</color>
     <color name="navigation_item_background">#FFFFFF</color>
     <color name="postechRed">#FFC80150</color>
     <color name="postechOrange">#FFFFB300</color>
-    <color name="postechGray">#FF66665C</color>
+    <color name="postechGray">#28281d</color>
     <color name="loadingPage">#FF3694ED</color>
     <color name="lime_blue">#FF1F77B4</color>
     <color name="lime_yellow">#FFFF7F02</color>
-
-
+    <color name="senticle_pink">#FFf6dbfa</color>
+    <color name="senticle_blue">#FFdbd2fe</color>
+    <color name="senticle_light_pink">#FFedd8fb</color>
 
 </resources>

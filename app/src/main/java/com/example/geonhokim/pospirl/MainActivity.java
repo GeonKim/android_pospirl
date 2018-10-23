@@ -1,7 +1,6 @@
 package com.example.geonhokim.pospirl;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -66,7 +65,8 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
-//    private MenuItem prevBottomNavigation;
+//    public ProgressBar progBar = (ProgressBar) findViewById(R.id.progressBar);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity
         rl1 = (RelativeLayout) findViewById(R.id.analysis_contents);
         rl2 = (RelativeLayout) findViewById(R.id.articles_contents);
         rl3 = (RelativeLayout) findViewById(R.id.prediction_contents);
-//        prevBottomNavigation = bottomNavigationView.getMenu().getItem(0);
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -152,9 +150,9 @@ public class MainActivity extends AppCompatActivity
                 company_name = s;
                 tv1.setText("오늘의 뉴스는...");
                 tv2.setText("뉴스분석");
-                tv3.setText(company_name + "의 오늘 종가예측 XXX원 (95%)");
-                tv4.setText("누적 적중률 90%");
-                tv4.setTextColor(Color.BLUE);
+                tv3.setText(company_name + " 종가 비율");
+                //tv4.setText("누적 적중률 90%");
+                ///tv4.setTextColor(Color.BLUE);
                 AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
                 asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
 
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void displayPieChart()
+    public void displayPieChart(float pos, float nega)
     {
         PieChart pieChart = (PieChart) findViewById(R.id.piechart);
         pieChart.setUsePercentValues(true);
@@ -180,17 +178,17 @@ public class MainActivity extends AppCompatActivity
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
         Description d = pieChart.getDescription();
-        d.setEnabled(false);
+        d.setEnabled(true);
 
         List<PieEntry> yvalues = new ArrayList<>();
 
-        yvalues.add(new PieEntry(positive, "긍정"));
-        yvalues.add(new PieEntry(negative, "부정"));
+        yvalues.add(new PieEntry(pos, "긍정"));
+        yvalues.add(new PieEntry(nega, "부정"));
 
         PieDataSet dataSet = new PieDataSet(yvalues, "Sentiment of Articles");
 
 
-        dataSet.setColors(new int[]{R.color.postechOrange, R.color.postechRed}, MainActivity.this);
+        dataSet.setColors(new int[]{R.color.lime_yellow, R.color.lime_blue}, MainActivity.this);
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
 
@@ -199,14 +197,17 @@ public class MainActivity extends AppCompatActivity
         pieChart.setCenterTextSize(20f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
-        positive = 0;
-        negative = 0;
     }
 
 
     private void displayLineChart()
     {
         LineChart lineChart = (LineChart) findViewById(R.id.linechart);
+
+//        if ( company_name == "posco")
+//        {
+//
+//        }
 
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(3, 4f));
@@ -301,7 +302,10 @@ public class MainActivity extends AppCompatActivity
                 prob6 = jsonObject.getDouble("prob6");
                 errorCheck = jsonObject.getInt("errorCheck");
 
-                cumulativeScore(scores);
+                cumulativeScore(up_prob, down_prob);
+
+
+
                 CompanyArticle ca = new CompanyArticle(title, links, contents, scores, up_prob, down_prob, word1, word2, word3, word4, word5, word6, prob1, prob2, prob3, prob4, prob5, prob6);
                 datalist.add(ca);
 
@@ -317,17 +321,14 @@ public class MainActivity extends AppCompatActivity
         return errorCheck;
     }
 
-    private void cumulativeScore(double scores)
+    private void cumulativeScore(double up_prob, double down_prob)
     {
-        float scoref = (float) scores;
+        float up_probf = (float) up_prob;
+        float down_probf = (float) down_prob;
 
-        if (scores >= 0)
-        {
-            positive += scoref;
-        } else
-        {
-            negative += Math.abs(scoref);
-        }
+        positive += up_probf;
+        negative += down_probf;
+
     }
 
     private class AsyncDataClass extends AsyncTask<String, Void, JSONArray>
@@ -389,23 +390,28 @@ public class MainActivity extends AppCompatActivity
 
             super.onPreExecute();
 
+//            progBar.setVisibility(View.VISIBLE);
+
         }
 
         @Override
         protected void onPostExecute(JSONArray jsonResult) //requset->response 과정을 거치고 나면
         {
             super.onPostExecute(jsonResult);
-//            returnParsedJsonObject(jsonResult);
+//            progBar.setVisibility(View.GONE);
+
             int errorCheck = returnParsedJsonObject(jsonResult);
 
             if (errorCheck == 1)
             {
                 Toast.makeText(MainActivity.this, company_name+"에 대한 정보를 찾았습니다.", Toast.LENGTH_SHORT).show();
-                displayPieChart();
+                displayPieChart(positive, negative);
                 displayLineChart();
             } else
             {
                 Toast.makeText(MainActivity.this, company_name+"에 대한 정보가 없습니다.\nposco 또는 sk hynix로 검색해주세요.", Toast.LENGTH_SHORT).show();
+                displayPieChart(0, 0);
+                displayLineChart();
             }
         }
 

@@ -43,9 +43,9 @@
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="article title"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="17dp"
                 android:textAlignment="textStart"
+                android:textColor="@android:color/black"
+                android:textSize="17dp"
                 android:textStyle="italic" />
 
             <ImageButton
@@ -153,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/postechRed"
                     android:textSize="13dp"
                     android:textStyle="bold" />
 

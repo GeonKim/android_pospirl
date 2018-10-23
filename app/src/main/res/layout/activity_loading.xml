@@ -6,5 +6,5 @@
     android:layout_height="match_parent"
     android:paddingLeft="18dp"
     android:paddingRight="18dp"
-    android:background="@drawable/senticle">
+    android:background="@drawable/loading_mini">
 </RelativeLayout>
