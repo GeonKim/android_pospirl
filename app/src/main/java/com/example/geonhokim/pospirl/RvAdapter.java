@@ -139,11 +139,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         for(int i = 0; i < targetStrings.length; i++){
             int targetStartIndex = string.indexOf(targetStrings[i]);
             int targetEndIndex = targetStartIndex + targetStrings[i].length();
-            if (targetScores[i] < 0){ //상승 노랑
-                spannableString.setSpan(new BackgroundColorSpan(0x90FCe300), targetStartIndex, targetEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (targetScores[i] >= 0){ //하락 파랑
+                spannableString.setSpan(new BackgroundColorSpan(Color.argb(1, 31, 119, 180)), targetStartIndex, targetEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-            } else {                //하락 파랑
-                spannableString.setSpan(new BackgroundColorSpan(0x905F9EA0), targetStartIndex, targetEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else {                //상승 노랑
+                spannableString.setSpan(new BackgroundColorSpan(Color.argb(1, 255, 127, 14)), targetStartIndex, targetEndIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
         return spannableString;
@@ -157,8 +157,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         entries2.add(new BarEntry(0, targetProb[1]));
 
         BarDataSet bardataset2 = new BarDataSet(entries2, "Prob Chart");
-        int[] colorArray = {Color.YELLOW, Color.BLUE};
-        bardataset2.setColors(colorArray);
+        bardataset2.setColors(Color.argb(255 ,255, 127, 14), Color.argb(255 ,31, 119, 180)); //orange, blue
         bardataset2.setValueTextSize(12f); //y값 크기
 
         BarData data2 = new BarData(bardataset2);
@@ -203,9 +202,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         for(int i = 0; i < targetScores.length; i++)
         {
             if(targetScores[i] >= 0){
-                colorArray[i] = Color.BLUE;
+                colorArray[i] = Color.argb(255,31, 119, 180);
             } else {
-                colorArray[i] = Color.YELLOW;
+                colorArray[i] = Color.argb(255,255, 127, 14);
             }
         }
 
