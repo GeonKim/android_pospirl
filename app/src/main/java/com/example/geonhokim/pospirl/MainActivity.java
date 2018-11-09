@@ -33,6 +33,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -60,8 +62,8 @@ public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
     private static float positive, negative;
-    private final String hostaddress = "182.215.14.185";
-    private final String serverUrl = "http://" + hostaddress + "/pos/include/testjsonpost.php";
+//    private final String hostaddress = "182.215.14.185";
+//    private final String serverUrl = "http://" + hostaddress + "/pos/include/testjsonpost.php";
     public TextView tv1, tv2, tv3;
     private RelativeLayout rl1, rl2, rl3;
     private BottomNavigationView bottomNavigationView;
@@ -155,8 +157,11 @@ public class MainActivity extends AppCompatActivity
                 tv3.setText(company_name + " 종가 비율");
                 //tv4.setText("누적 적중률 90%");
                 ///tv4.setTextColor(Color.BLUE);
-                AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
-                asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
+//                AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
+//                asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("article");
 
                 return true;
             }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "615794028976",
+    "firebase_url": "https://pospirl-27314.firebaseio.com",
+    "project_id": "pospirl-27314",
+    "storage_bucket": "pospirl-27314.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615794028976:android:b85d0ed9a6d7a9b7",
+        "android_client_info": {
+          "package_name": "com.example.geonhokim.pospirl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615794028976-jo1ga2h5dg922bra2sh58so28o28jbft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.geonhokim.pospirl",
+            "certificate_hash": "cd667cc0e6e7828bb91eb85ba6bcb238532661b8"
+          }
+        },
+        {
+          "client_id": "615794028976-ep82gf9c1t7r42uo4q13q4v2o6s3390k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvM2mly6CJsMQo9SlBKHH0ypCjUOuFbSs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615794028976-ep82gf9c1t7r42uo4q13q4v2o6s3390k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
