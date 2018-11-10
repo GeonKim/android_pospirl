@@ -3,6 +3,7 @@ package com.example.geonhokim.pospirl;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,11 +12,11 @@ import java.util.Map;
 public class CompanyArticle
 {
 
-    public String title;
-    public String links;
-    public String contents;
-    public String up_down;
-    public String key_prob;
+    private String title;
+    private String links;
+    private String contents;
+    private String up_down;
+    private String key_prob;
 
     public CompanyArticle()
     {

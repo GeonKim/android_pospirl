@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -37,7 +36,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
     public static int cnt = 0;
 
-    RequestOptions options;
     private Context mContext;
     private List<CompanyArticle> datalist;
 
@@ -46,10 +44,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
     {
         this.mContext = mContext;
         this.datalist = datalist;
-        options = new RequestOptions()
-                .centerCrop();
-//                .placeholder(R.drawable.loading)
-//                .error(R.drawable.loading);
     }
 
     @Override
@@ -77,8 +71,9 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 		String[] targetStrings = new String[key_prob_map.size()];
 
 		for(int i = 0; i < key_prob_map.size(); i++){
-		    targetStrings[i] = keySetIterator.next();
-		    targetScores[i] = key_prob_map.get(keySetIterator.next());
+		    String key = keySetIterator.next();
+		    targetStrings[i] = key;
+		    targetScores[i] = key_prob_map.get(key);
         }
 
         plotFeatureChart(itemController.featureChart, targetScores, targetStrings);
