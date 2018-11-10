@@ -27,7 +27,10 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 {
@@ -66,31 +69,24 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
         cnt = 0;
 
-        String word1 = datalist.get(position).getWord1();
-        String word2 = datalist.get(position).getWord2();
-        String word3 = datalist.get(position).getWord3();
-        String word4 = datalist.get(position).getWord4();
-        String word5 = datalist.get(position).getWord5();
-        String word6 = datalist.get(position).getWord6();
-        String[] targetStrings = {word1, word2, word3, word4, word5, word6};
+        Map<String, Float> key_prob_map = tokenizeKeyProb(datalist.get(position).getKey_prob());
 
-        float prob1 = (float) datalist.get(position).getProb1();
-        float prob2 = (float) datalist.get(position).getProb2();
-        float prob3 = (float) datalist.get(position).getProb3();
-        float prob4 = (float) datalist.get(position).getProb4();
-        float prob5 = (float) datalist.get(position).getProb5();
-        float prob6 = (float) datalist.get(position).getProb6();
-        float[] targetScores = {prob1, prob2, prob3, prob4, prob5, prob6};
+		Iterator<String> keySetIterator = key_prob_map.keySet().iterator();
 
-        float up_prob = (float) datalist.get(position).getUp_prob();
-        float down_prob = (float) datalist.get(position).getDown_prob();
-        float[] targetProb = {up_prob, down_prob};
+		Float[] targetScores = new Float[key_prob_map.size()];
+		String[] targetStrings = new String[key_prob_map.size()];
+
+		for(int i = 0; i < key_prob_map.size(); i++){
+		    targetStrings[i] = keySetIterator.next();
+		    targetScores[i] = key_prob_map.get(keySetIterator.next());
+        }
 
         plotFeatureChart(itemController.featureChart, targetScores, targetStrings);
-        plotProbChart(itemController.probChart, targetProb);
+
+        Float[] new_ud = tokenizeUpDown(datalist.get(position).getUp_down());
+        plotProbChart(itemController.probChart, new_ud);
 
         String str = datalist.get(position).getContents();
-
         itemController.article_btn.setText(datalist.get(position).getTitle());
         itemController.highlighted_title.setText(datalist.get(position).getTitle());
         itemController.highlighted_texts.setText(getUnderLineColorText(str, targetStrings, targetScores));
@@ -132,7 +128,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         return datalist.size();
     }
 
-    public static SpannableString getUnderLineColorText(String string, String[] targetStrings, float[] targetScores) {
+    public static SpannableString getUnderLineColorText(String string, String[] targetStrings, Float[] targetScores) {
 
         SpannableString spannableString = new SpannableString(string);
 
@@ -150,7 +146,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
     }
 
 
-    public void plotProbChart(HorizontalBarChart probChart, float[] targetProb)
+    public void plotProbChart(HorizontalBarChart probChart, Float[] targetProb)
     {
         ArrayList<BarEntry> entries2 = new ArrayList<>();
         entries2.add(new BarEntry(1, targetProb[0]));
@@ -186,7 +182,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         probChart.setData(data2);
     }
 
-    public void plotFeatureChart(HorizontalBarChart featureChart, float[] targetScores, String[] targetStrings)
+    public void plotFeatureChart(HorizontalBarChart featureChart, Float[] targetScores, String[] targetStrings)
     {
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(5, targetScores[0]));
@@ -275,5 +271,30 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         }
     }
 
+    public static Float[] tokenizeUpDown(String str){
+        String new_str = str.replace("[", "").replace("]", "");
+        String[] str_arr = new_str.split(", ");
+        Float[] new_ud = new Float[str_arr.length];
+        for(int i = 0; i < str_arr.length; i++){
+            new_ud[i] = Float.valueOf(str_arr[i]);
+        }
+        return new_ud;
+    }
+
+    public static Map<String, Float> tokenizeKeyProb(String str){
+
+        String new_str = str.replace("[(", "").replace(")]", "").replaceAll("'", "");
+
+        String[] st_ar = new_str.split("\\), \\(");
+
+        Map<String, Float> _map = new HashMap<String, Float>();
+
+        for(int i = 0; i < st_ar.length; i++){
+            String[] arg = st_ar[i].split(", ");
+            _map.put(arg[0], Float.valueOf(arg[1]));
+        }
+
+        return _map;
+    }
 
 }

@@ -9,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +34,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.apache.http.HttpResponse;
@@ -155,13 +158,59 @@ public class MainActivity extends AppCompatActivity
                 tv1.setText("오늘의 뉴스는...");
                 tv2.setText("뉴스분석");
                 tv3.setText(company_name + " 종가 비율");
+                datalist.clear();
                 //tv4.setText("누적 적중률 90%");
                 ///tv4.setTextColor(Color.BLUE);
 //                AsyncDataClass asyncRequestObject = new AsyncDataClass(); //http 통신을 위한 객체를 생성하고 post request 수행한다.
 //                asyncRequestObject.execute(serverUrl, company_name); //아이디와 비밀번호로 해당 서버에 로그인 실행
+//
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                DatabaseReference myRef = database.getReference().child(company_name);
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("article");
+                // 데이터베이스 읽기 #3. ChildEventListener
+                FirebaseDatabase.getInstance().getReference(company_name).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d("MainActivity", "ChildEventListener - onChildAdded : " + dataSnapshot.getValue());
+
+                        // A new comment has been added, add it to the displayed list
+                        CompanyArticle ca = dataSnapshot.getValue(CompanyArticle.class);
+                        datalist.add(ca);
+                        setRvadapter(datalist);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        Log.d("MainActivity", "ChildEventListener - onChildChanged : " + s);
+
+                        // A comment has changed, use the key to determine if we are displaying this
+                        // comment and if so displayed the changed comment.
+                        CompanyArticle new_ca = dataSnapshot.getValue(CompanyArticle.class);
+                        datalist.add(new_ca);
+                        setRvadapter(datalist);
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Log.d("MainActivity", "ChildEventListener - onChildRemoved : " + dataSnapshot.getKey());
+
+                        // A comment has changed, use the key to determine if we are displaying this
+                        // comment and if so remove it.
+                        String commentKey = dataSnapshot.getKey();
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        Log.d("MainActivity", "ChildEventListener - onChildMoved" + s);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("MainActivity", "ChildEventListener - onCancelled" + databaseError.getMessage());
+                        Toast.makeText(MainActivity.this, "Failed to load comments.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 return true;
             }
@@ -189,8 +238,8 @@ public class MainActivity extends AppCompatActivity
 
         List<PieEntry> yvalues = new ArrayList<>();
 
-        yvalues.add(new PieEntry(pos, "긍정"));
-        yvalues.add(new PieEntry(nega, "부정"));
+        yvalues.add(new PieEntry(pos, "상승"));
+        yvalues.add(new PieEntry(nega, "하락"));
 
         PieDataSet dataSet = new PieDataSet(yvalues, "Sentiment of Articles");
 
@@ -467,8 +516,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-                CompanyArticle ca = new CompanyArticle(title, links, contents, scores, up_prob, down_prob, word1, word2, word3, word4, word5, word6, prob1, prob2, prob3, prob4, prob5, prob6);
-                datalist.add(ca);
+                //CompanyArticle ca = new CompanyArticle(title, links, contents, scores, up_prob, down_prob, word1, word2, word3, word4, word5, word6, prob1, prob2, prob3, prob4, prob5, prob6);
+                //datalist.add(ca);
 
 
 
