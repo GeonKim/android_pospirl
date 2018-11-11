@@ -26,8 +26,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -282,7 +282,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
         String[] st_ar = new_str.split("\\), \\(");
 
-        Map<String, Float> _map = new HashMap<String, Float>();
+        Map<String, Float> _map = new LinkedHashMap<String, Float>(); //데이터가 순차적으로 삽입되기 위해 LinkedHashMap 사용한다.
 
         for(int i = 0; i < st_ar.length; i++){
             String[] arg = st_ar[i].split(", ");
