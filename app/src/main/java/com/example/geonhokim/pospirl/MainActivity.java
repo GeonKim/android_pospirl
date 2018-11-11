@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
+    private String token;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +69,12 @@ public class MainActivity extends AppCompatActivity
         rl1 = (RelativeLayout) findViewById(R.id.analysis_contents);
         rl2 = (RelativeLayout) findViewById(R.id.articles_contents);
         rl3 = (RelativeLayout) findViewById(R.id.prediction_contents);
+
+        MyFirebaseInstanceIDService myf = new MyFirebaseInstanceIDService();
+        myf.onTokenRefresh();
+        token = myf.getRefreshedToken();
+        DatabaseReference fcmToken = database.getReference().child("users").child(token).child("fcm_token");
+        fcmToken.setValue(token);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
@@ -114,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                 tv1.setText("오늘의 뉴스는...");
                 tv2.setText("뉴스분석");
                 tv3.setText(company_name + " 종가 비율");
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference().child(company_name);
 
                 // 리얼타임 데이터베이스 읽는 방법1. ValueEventListener 이용해서 전체 차일드 수신.
