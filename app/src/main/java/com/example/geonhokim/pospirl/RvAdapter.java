@@ -288,7 +288,6 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
             String[] arg = st_ar[i].split(", ");
             _map.put(arg[0], Float.valueOf(arg[1]));
         }
-
         return _map;
     }
 
