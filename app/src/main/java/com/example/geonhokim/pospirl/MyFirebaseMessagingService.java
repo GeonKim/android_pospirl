@@ -21,7 +21,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
     {
 
         //추가한것
-        sendNotification(remoteMessage.getData().get("body"));
+        sendNotification(remoteMessage.getNotification().getBody());
     }
 
     private void sendNotification(String messageBody)
