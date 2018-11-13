@@ -23,7 +23,7 @@
                 android:id="@+id/analysis_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv1"
