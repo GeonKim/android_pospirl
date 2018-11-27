@@ -45,12 +45,30 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     public static String company_name;
-    public TextView tv1, tv2, tv3;
+    public TextView tv1, tv2, tv3, sv1, sv2, sv3, sv4;
     private RelativeLayout rl1, rl2, rl3;
     private BottomNavigationView bottomNavigationView;
     private List<CompanyArticle> datalist = new ArrayList<>();
     private RecyclerView myrv;
 
+    public static Float[] tokenizeStrToFloatArr(String str)
+    {
+        String new_str = str.replace("[", "").replace("]", "");
+        String[] str_arr = new_str.split(", ");
+        Float[] new_fa = new Float[str_arr.length];
+        for (int i = 0; i < str_arr.length; i++)
+        {
+            new_fa[i] = Float.valueOf(str_arr[i]);
+        }
+        return new_fa;
+    }
+
+    public static String[] tokenizeStrToStrArr(String str)
+    {
+        String new_str = str.replace("[", "").replace("]", "");
+        String[] str_arr = new_str.split(", ");
+        return str_arr;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,6 +83,10 @@ public class MainActivity extends AppCompatActivity
         tv1 = (TextView) findViewById(R.id.tv1);
         tv2 = (TextView) findViewById(R.id.tv2);
         tv3 = (TextView) findViewById(R.id.tv3);
+        sv1 = (TextView) findViewById(R.id.stock_yesterday_close_value);
+        sv2 = (TextView) findViewById(R.id.stock_today_close_value);
+        sv3 = (TextView) findViewById(R.id.stock_today_upper_value);
+        sv4 = (TextView) findViewById(R.id.stock_today_lower_value);
         rl1 = (RelativeLayout) findViewById(R.id.analysis_contents);
         rl2 = (RelativeLayout) findViewById(R.id.articles_contents);
         rl3 = (RelativeLayout) findViewById(R.id.prediction_contents);
@@ -125,7 +147,8 @@ public class MainActivity extends AppCompatActivity
                 company_name = s;
                 tv1.setText("오늘의 뉴스는...");
                 tv2.setText("뉴스분석");
-                tv3.setText(company_name + " 종가 비율");
+                tv3.setText(company_name.toUpperCase() + " 종가 예측");
+
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference().child(company_name);
 
@@ -144,7 +167,7 @@ public class MainActivity extends AppCompatActivity
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
                         {
                             CompanyArticle ca = dataSnapshot1.getValue(CompanyArticle.class);
-                            Float[] up_down_prob = tokenizeUpDown(ca.getUp_down());
+                            Float[] up_down_prob = tokenizeStrToFloatArr(ca.getUp_down());
                             positive += up_down_prob[0];
                             negative += up_down_prob[1];
 
@@ -156,11 +179,10 @@ public class MainActivity extends AppCompatActivity
                             Toast.makeText(MainActivity.this, company_name + "의 정보를 수신합니다.", Toast.LENGTH_SHORT).show();
                         } else
                         {
-                            Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다. posco 또는 sk hynix로 검색해주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다. posco, sk hynix, kogas, kepco enc 중에서 검색해주세요.", Toast.LENGTH_SHORT).show();
                         }
                         setRvadapter(datalist);
                         displayPieChart(positive, negative);
-                        displayLineChart();
                     }
 
                     @Override
@@ -217,6 +239,43 @@ public class MainActivity extends AppCompatActivity
 //                });
 //                //myRef.removeEventListener(listener);
 
+                DatabaseReference myRef2 = database.getReference().child("stock").child(company_name + "_stock");
+
+                // 리얼타임 데이터베이스 읽는 방법1. ValueEventListener 이용해서 전체 차일드 수신.
+                myRef2.addValueEventListener(new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot)
+                    {
+                        Log.d("MainActivity", "EventListener - onChildChanged : " + dataSnapshot.getValue());
+
+
+                        try
+                        {
+
+                            CompanyStock cs = dataSnapshot.getValue(CompanyStock.class);
+                            String[] date_arr = tokenizeStrToStrArr(cs.getDate());
+                            Float[] close_arr = tokenizeStrToFloatArr(cs.getClose());
+                            Float[] upper_arr = tokenizeStrToFloatArr(cs.getUpper());
+                            Float[] lower_arr = tokenizeStrToFloatArr(cs.getLower());
+                            displayLineChart(date_arr, close_arr, upper_arr, lower_arr);
+
+                        } catch (NullPointerException e)
+                        {
+                            System.err.println(e.getStackTrace());
+                            displayLineChart();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error)
+                    {
+                        // Failed to read value
+                        Log.d("MainActivity", "Failed to read value.", error.toException());
+                        Toast.makeText(MainActivity.this, "정보 수신 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return true;
             }
 
@@ -260,105 +319,49 @@ public class MainActivity extends AppCompatActivity
         data.setValueTextSize(20f);
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutQuad);
-        pieChart.setCenterText(company_name);
+        pieChart.setCenterText(company_name.toUpperCase());
         pieChart.setCenterTextSize(20f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
     }
 
-
     private void displayLineChart()
     {
         LineChart lineCharts = (LineChart) findViewById(R.id.linechart);
 
-        String[] period = {"2018-09-16","2018-09-17", "2018-09-18", "2018-09-19", "2018-09-20", "2018-09-21", "2018-09-26", "2018-09-27", "2018-09-28", "2018-09-30", "2018-10-01", "2018-10-02", "2018-10-04", "2018-10-05", "2018-10-07", "2018-10-08", "2018-10-09", "2018-10-10", "2018-10-11", "2018-10-12", "2018-10-14", "2018-10-15", "2018-10-16", "2018-10-17", "2018-10-18", "2018-10-19", "2018-10-21", "2018-10-22", "2018-10-23", "2018-10-24"};
+        ArrayList<Entry> close_price = new ArrayList<>();
 
-        double[][] posco_data =
-                {{294000, 295180.35, 290619.65},
-                {293000, 295149.39, 291050.61},
-                {296500, 296963.56, 291236.44},
-                {298500, 299705.55, 290694.45},
-                {298500, 301169.52, 291030.48},
-                {304500, 306554.64, 289845.36},
-                {304500, 307983.31, 293016.69},
-                {305500, 309285.7, 295314.3},
-                {294500, 311091.66, 291908.34},
-                {294500, 312049.01, 289350.99},
-                {295500, 310089.28, 287710.72},
-                {294000, 306587.75, 287012.25},
-                {274500, 308633.3, 272566.7},
-                {279000, 307412.31, 267587.69},
-                {279000, 303679.52, 265120.48},
-                {271500, 296911.85, 262288.15},
-                {271500, 282629.94, 267570.06},
-                {272000, 282643.63, 266556.37},
-                {257000, 286271.71, 254128.29},
-                {265000, 280388.46, 254411.54},
-                {265000, 278314.75, 253885.25},
-                {265500, 275539.55, 254260.45},
-                {266000, 271236.58, 256163.42},
-                {271500, 272140.76, 261059.24},
-                {264000, 272290.67, 260509.33},
-                {270000, 273779.66, 261020.34},
-                {268500, 274041.52, 261958.48},
-                {266000, 274041.52, 261958.48},
-                {260500, 273303.33, 258296.67},
-                {260500, 275173.77, 258965.13}};
+        close_price.add(new Entry(0, 0f));
 
-        double[][] hynix_data =
-                {{77200, 79491.56, 73388.44},
-                {78000, 79895.41, 74144.59},
-                {78800, 79058.13, 76701.87},
-                {79100, 79725.89, 76594.11},
-                {76700, 80002.55, 75917.45},
-                {76700, 80125.39, 75594.61},
-                {75000, 80649.99, 73870.01},
-                {73100, 80584.08, 71655.92},
-                {73100, 78521.11, 71318.89},
-                {73700, 77400.26, 71239.74},
-                {71700, 75704.95, 70935.05},
-                {71700, 74479.89, 70840.11},
-                {70000, 74916.11, 69163.89},
-                {70300, 74413.94, 68546.06},
-                {70300, 72461.32, 69138.68},
-                {71200, 72135.27, 69264.73},
-                {71200, 71722.5, 69477.5},
-                {70300, 71645.9, 69674.1},
-                {69000, 72205.55, 68594.45},
-                {72400, 73343.49, 68296.51},
-                {72400, 73963.79, 68156.21},
-                {70300, 73851.2, 67908.8},
-                {69700, 73892.41, 67627.59},
-                {70400, 73580.08, 68499.92},
-                {68700, 73009.24, 67590.76},
-                {70800, 71613.4, 68346.6},
-                {69700, 71463.75, 68256.25},
-                {70000, 71516.25, 68323.75},
-                {69200, 71276.25, 68083.75},
-                {69200, 73127.82, 67795.56}};
+        LineDataSet dataset_close = new LineDataSet(close_price, "");
+
+        LineData chartData = new LineData();
+        chartData.addDataSet(dataset_close);
+
+        lineCharts.setData(chartData);
+
+        sv1.setText("");
+        sv2.setText("");
+        sv3.setText("");
+        sv4.setText("");
+    }
+
+    private void displayLineChart(String[] date_arr, Float[] close_arr, Float[] upper_arr, Float[] lower_arr)
+    {
+        LineChart lineCharts = (LineChart) findViewById(R.id.linechart);
+
+        String[] period = date_arr;
 
         ArrayList<Entry> close_price = new ArrayList<>();
         ArrayList<Entry> upper_price = new ArrayList<>();
         ArrayList<Entry> lower_price = new ArrayList<>();
 
-        //Close
-        if ( company_name.equals("posco"))
+
+        for (int i = 0; i < date_arr.length; i++)
         {
-            for(int i = 0; i < posco_data.length; i++){
-                close_price.add(new Entry(i, (float) posco_data[i][0]));
-                upper_price.add(new Entry(i, (float) posco_data[i][1]));
-                lower_price.add(new Entry(i, (float) posco_data[i][2]));
-                }
-        } else if (company_name.equals("sk hynix")){
-            for(int i = 0; i < hynix_data.length; i++){
-                close_price.add(new Entry(i, (float) hynix_data[i][0]));
-                upper_price.add(new Entry(i, (float) hynix_data[i][1]));
-                lower_price.add(new Entry(i, (float) hynix_data[i][2]));
-            }
-        } else {
-            close_price.add(new Entry(0, 0f));
-            upper_price.add(new Entry(0, 0f));
-            lower_price.add(new Entry(0, 0f));
+            close_price.add(new Entry(i, close_arr[i]));
+            upper_price.add(new Entry(i, upper_arr[i]));
+            lower_price.add(new Entry(i, lower_arr[i]));
         }
 
         LineDataSet dataset_close = new LineDataSet(close_price, "Close");
@@ -380,15 +383,23 @@ public class MainActivity extends AppCompatActivity
         YAxis yAxisRight = lineCharts.getAxisRight();
         yAxisRight.setEnabled(false);
 
+        XAxis xAxis = lineCharts.getXAxis();
+        xAxis.setTextSize(3f);
+
         lineCharts.getXAxis().setValueFormatter(new LabelFormatter(period));
         lineCharts.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // 그림 하단에만 X-value 표시
         lineCharts.getAxisLeft().setDrawGridLines(false); // y 왼쪽 그리드 제거
         lineCharts.getAxisRight().setDrawGridLines(false); // y 오른쪽 그리드 제거
         lineCharts.getXAxis().setDrawGridLines(false); // x그리드 제거
-        lineCharts.animateY(1000);
+//        lineCharts.animateY(1000);
 
         lineCharts.setData(chartData);
 //        lineCharts.invalidate();
+
+        sv1.setText(String.valueOf(Math.round(close_arr[date_arr.length - 2])) + "원");
+        sv2.setText(String.valueOf(Math.round(close_arr[date_arr.length - 1])) + "원");
+        sv3.setText(String.valueOf(Math.round(upper_arr[date_arr.length - 1])) + "원");
+        sv4.setText(String.valueOf(Math.round(lower_arr[date_arr.length - 1])) + "원");
 
     }
 
@@ -396,24 +407,16 @@ public class MainActivity extends AppCompatActivity
     {
         private final String[] mLabels;
 
-        public LabelFormatter(String[] labels) {
+        public LabelFormatter(String[] labels)
+        {
             mLabels = labels;
         }
 
         @Override
-        public String getFormattedValue(float value, AxisBase axis) {
+        public String getFormattedValue(float value, AxisBase axis)
+        {
             return mLabels[(int) value];
         }
-    }
-
-    public static Float[] tokenizeUpDown(String str){
-        String new_str = str.replace("[", "").replace("]", "");
-        String[] str_arr = new_str.split(", ");
-        Float[] new_ud = new Float[str_arr.length];
-        for(int i = 0; i < str_arr.length; i++){
-            new_ud[i] = Float.valueOf(str_arr[i]);
-        }
-        return new_ud;
     }
 
 }
