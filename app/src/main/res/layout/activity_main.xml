@@ -225,6 +225,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@color/bottom_section_color"
         app:itemTextColor="@color/bottom_section_color"
