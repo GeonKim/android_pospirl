@@ -135,7 +135,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="전일 종가"
+                            android:text="현재 시가"
                             android:textSize="15dp"
                             android:textColor="#FF000000"/>
 
@@ -153,7 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="현재 시가"
+                            android:text="내일 종가"
                             android:textColor="@android:color/holo_blue_dark"
                             android:textSize="15dp"
                             android:textAlignment="textEnd" />

@@ -18,7 +18,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,7 +43,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static String company_name;
+    public String company_name;
     public TextView tv1, tv2, tv3, sv1, sv2, sv3, sv4;
     private RelativeLayout rl1, rl2, rl3;
     private BottomNavigationView bottomNavigationView;
@@ -144,13 +143,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String s) //검색어 완료시 작동 리스너
             {
+                Toast.makeText(MainActivity.this, s + "의 정보를 수신합니다.", Toast.LENGTH_SHORT).show();
                 company_name = s;
                 tv1.setText("오늘의 뉴스는...");
                 tv2.setText("뉴스분석");
-                tv3.setText(company_name.toUpperCase() + " 종가 예측");
+                tv3.setText(s.toUpperCase() + " 종가 예측");
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference().child(company_name);
+                DatabaseReference myRef = database.getReference().child(s);
 
                 // 리얼타임 데이터베이스 읽는 방법1. ValueEventListener 이용해서 전체 차일드 수신.
                 myRef.addValueEventListener(new ValueEventListener()
@@ -174,12 +174,16 @@ public class MainActivity extends AppCompatActivity
                             datalist.add(ca);
                         }
 
-                        if (datalist.size() > 0)
+                        if (datalist.size() <= 0)
                         {
-                            Toast.makeText(MainActivity.this, company_name + "의 정보를 수신합니다.", Toast.LENGTH_SHORT).show();
-                        } else
-                        {
-                            Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다. posco, sk hynix, kogas, kepco enc 중에서 검색해주세요.", Toast.LENGTH_SHORT).show();
+                            if (company_name.equals("posco") || company_name.equals("kogas") || company_name.equals("sk hynix"))
+                            {
+                                Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+
+                            } else
+                            {
+                                Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다.\nposco, sk hynix, kogas 중 검색해주세요.", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         setRvadapter(datalist);
                         displayPieChart(positive, negative);
@@ -239,7 +243,7 @@ public class MainActivity extends AppCompatActivity
 //                });
 //                //myRef.removeEventListener(listener);
 
-                DatabaseReference myRef2 = database.getReference().child("stock").child(company_name + "_stock");
+                DatabaseReference myRef2 = database.getReference().child("stock").child(s + "_stock");
 
                 // 리얼타임 데이터베이스 읽는 방법1. ValueEventListener 이용해서 전체 차일드 수신.
                 myRef2.addValueEventListener(new ValueEventListener()
@@ -252,7 +256,6 @@ public class MainActivity extends AppCompatActivity
 
                         try
                         {
-
                             CompanyStock cs = dataSnapshot.getValue(CompanyStock.class);
                             String[] date_arr = tokenizeStrToStrArr(cs.getDate());
                             Float[] close_arr = tokenizeStrToFloatArr(cs.getClose());
@@ -318,7 +321,7 @@ public class MainActivity extends AppCompatActivity
         PieData data = new PieData(dataSet);
         data.setValueTextSize(20f);
 
-        pieChart.animateY(1000, Easing.EasingOption.EaseInOutQuad);
+//        pieChart.animateY(1000, Easing.EasingOption.EaseInOutQuad);
         pieChart.setCenterText(company_name.toUpperCase());
         pieChart.setCenterTextSize(20f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
