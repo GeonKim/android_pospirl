@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 
                         if (datalist.size() <= 0)
                         {
-                            if (company_name.equals("posco") || company_name.equals("kogas") || company_name.equals("sk hynix"))
+                            if (company_name.equals("posco") || company_name.equals("sk hynix") || company_name.equals("kogas"))
                             {
                                 Toast.makeText(MainActivity.this, company_name + "의 정보가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
 
@@ -243,9 +243,9 @@ public class MainActivity extends AppCompatActivity
 //                });
 //                //myRef.removeEventListener(listener);
 
-                DatabaseReference myRef2 = database.getReference().child("stock").child(s + "_stock");
+                DatabaseReference myRef2 = database.getReference().child(s + "_stock").child(s + "_data");
 
-                // 리얼타임 데이터베이스 읽는 방법1. ValueEventListener 이용해서 전체 차일드 수신.
+
                 myRef2.addValueEventListener(new ValueEventListener()
                 {
                     @Override

@@ -40,8 +40,8 @@
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/piechart"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:layout_marginTop="70dp">
+                    android:layout_height="400dp"
+                    android:layout_marginTop="100dp">
 
                 </com.github.mikephil.charting.charts.PieChart>
             </RelativeLayout>
@@ -107,10 +107,10 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/linechart"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginRight="28dp"
-                    android:layout_marginLeft="28dp">
+                    android:layout_height="380dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginLeft="80dp">
 
                 </com.github.mikephil.charting.charts.LineChart>
 
@@ -136,8 +136,9 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="현재 시가"
-                            android:textSize="15dp"
-                            android:textColor="#FF000000"/>
+                            android:textSize="18dp"
+                            android:textColor="#FF000000"
+                            android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/stock_yesterday_close_value"
@@ -145,7 +146,8 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:layout_weight="1"
-                            android:textSize="15dp" />
+                            android:textSize="18dp"
+                            android:textAlignment="center" />
 
 
                         <TextView
@@ -155,17 +157,17 @@
                             android:layout_weight="1"
                             android:text="내일 종가"
                             android:textColor="@android:color/holo_blue_dark"
-                            android:textSize="15dp"
-                            android:textAlignment="textEnd" />
+                            android:textSize="18dp"
+                            android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/stock_today_close_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="15dp"
+                            android:textSize="18dp"
                             android:layout_weight="1"
-                            android:textAlignment="textEnd" />
+                            android:textAlignment="center" />
 
                     </LinearLayout>
 
@@ -184,7 +186,8 @@
                             android:layout_weight="1"
                             android:text="예측 상한"
                             android:textColor="@android:color/holo_red_light"
-                            android:textSize="15dp" />
+                            android:textSize="18dp"
+                            android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/stock_today_upper_value"
@@ -192,7 +195,8 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:layout_weight="1"
-                            android:textSize="15dp" />
+                            android:textSize="18dp"
+                            android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/stock_today_lower"
@@ -201,17 +205,17 @@
                             android:layout_weight="1"
                             android:text="예측 하한"
                             android:textColor="@android:color/holo_red_light"
-                            android:textSize="15dp"
-                            android:textAlignment="textEnd"/>
+                            android:textSize="18dp"
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/stock_today_lower_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="15dp"
+                            android:textSize="18dp"
                             android:layout_weight="1"
-                            android:textAlignment="textEnd"/>
+                            android:textAlignment="center"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

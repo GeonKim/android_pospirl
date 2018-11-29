@@ -6,9 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="12dp"
-    android:layout_marginLeft="12dp"
-    android:layout_marginBottom="12dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="horizontal"
     android:layout_centerHorizontal="true"
     android:padding="0dp">
@@ -87,12 +87,34 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/probChart"
-                    android:layout_below="@+id/Prediction_Prob"
-                    android:layout_width="200dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true" />
+                    android:layout_below="@+id/Prediction_Prob"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5">
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/probChart"
+                        android:layout_below="@+id/Prediction_Prob"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5">
+                    </LinearLayout>
+
+                </LinearLayout>
+
 
             </RelativeLayout>
 
@@ -106,8 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginEnd="50dp"
-                    android:layout_marginStart="50dp">
+                    android:layout_marginRight="100dp"
+                    android:layout_marginLeft="100dp">
 
                     <TextView
                         android:id="@+id/up_text"
@@ -133,20 +155,44 @@
 
                 </LinearLayout>
 
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/featureChart"
-                    android:layout_below="@+id/up_down_layout"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_below="@+id/up_down_layout"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3.5">
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/featureChart"
+                        android:layout_below="@+id/up_down_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3.5">
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/highlight_title"
@@ -154,15 +200,9 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textColor="@color/postechRed"
-                    android:textSize="13dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
-                <!--
-                <ScrollView
-                    android:id="@+id/childScroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                -->
                 <TextView
                     android:id="@+id/highlight_text"
                     android:layout_width="match_parent"
@@ -172,14 +212,10 @@
                     android:scrollbars="vertical"
                     android:text="contents"
                     android:textColor="@android:color/black"
-                    android:textSize="13dp"
+                    android:textSize="17dp"
                     android:lineSpacingMultiplier="1.5" />
-                <!--
-                </ScrollView>
-                -->
 
-
-            </RelativeLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
