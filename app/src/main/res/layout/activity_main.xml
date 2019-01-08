@@ -40,7 +40,9 @@
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/piechart"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_height="300dp"
                     android:layout_marginTop="100dp">
 
                 </com.github.mikephil.charting.charts.PieChart>
@@ -107,10 +109,10 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/linechart"
                     android:layout_width="match_parent"
-                    android:layout_height="380dp"
+                    android:layout_height="300dp"
                     android:layout_marginTop="100dp"
-                    android:layout_marginRight="80dp"
-                    android:layout_marginLeft="80dp">
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp">
 
                 </com.github.mikephil.charting.charts.LineChart>
 
@@ -136,7 +138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="현재 시가"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textColor="#FF000000"
                             android:textAlignment="center" />
 
@@ -146,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:layout_weight="1"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textAlignment="center" />
 
 
@@ -157,7 +159,7 @@
                             android:layout_weight="1"
                             android:text="내일 종가"
                             android:textColor="@android:color/holo_blue_dark"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textAlignment="center" />
 
                         <TextView
@@ -165,7 +167,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:layout_weight="1"
                             android:textAlignment="center" />
 
@@ -186,7 +188,7 @@
                             android:layout_weight="1"
                             android:text="예측 상한"
                             android:textColor="@android:color/holo_red_light"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textAlignment="center" />
 
                         <TextView
@@ -195,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:layout_weight="1"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textAlignment="center" />
 
                         <TextView
@@ -205,7 +207,7 @@
                             android:layout_weight="1"
                             android:text="예측 하한"
                             android:textColor="@android:color/holo_red_light"
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:textAlignment="center"/>
 
                         <TextView
@@ -213,7 +215,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="18dp"
+                            android:textSize="15dp"
                             android:layout_weight="1"
                             android:textAlignment="center"/>
                     </LinearLayout>

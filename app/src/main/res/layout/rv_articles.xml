@@ -6,9 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="20dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginBottom="10dp"
     android:orientation="horizontal"
     android:layout_centerHorizontal="true"
     android:padding="0dp">
@@ -96,7 +96,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5">
+                        android:layout_weight="3">
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
@@ -110,7 +110,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5">
+                        android:layout_weight="3">
                     </LinearLayout>
 
                 </LinearLayout>
@@ -164,7 +164,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3.5">
+                        android:layout_weight="5">
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.HorizontalBarChart
@@ -179,7 +179,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3.5">
+                        android:layout_weight="5">
                     </LinearLayout>
 
                 </LinearLayout>
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textColor="@color/postechRed"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -212,7 +212,7 @@
                     android:scrollbars="vertical"
                     android:text="contents"
                     android:textColor="@android:color/black"
-                    android:textSize="17dp"
+                    android:textSize="14dp"
                     android:lineSpacingMultiplier="1.5" />
 
             </LinearLayout>

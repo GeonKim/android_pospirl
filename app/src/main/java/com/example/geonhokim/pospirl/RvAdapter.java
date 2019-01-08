@@ -149,7 +149,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
 
         BarDataSet bardataset2 = new BarDataSet(entries2, "Prob Chart");
         bardataset2.setColors(Color.argb(255,255, 127, 14), Color.argb(255 ,31, 119, 180)); //orange, blue
-        bardataset2.setValueTextSize(17f); //y값 크기
+        bardataset2.setValueTextSize(15f); //y값 크기
 
         BarData data2 = new BarData(bardataset2);
 
@@ -158,7 +158,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         probChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // 그림 왼쪽에 X-value 표시
         XAxis xAxis = probChart.getXAxis();
         xAxis.setLabelCount(2); //라벨은 두개만
-        xAxis.setTextSize(17f); // x값 크기
+        xAxis.setTextSize(15f); // x값 크기
 
         probChart.getDescription().setEnabled(false); // Hide the description
         probChart.getAxisLeft().setDrawLabels(false); // 그림의 윗부분 수치(Y-value) 사라짐
@@ -201,7 +201,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         }
 
         bardataset.setColors(colorArray);
-        bardataset.setValueTextSize(14f); //y값 크기
+        bardataset.setValueTextSize(12f); //y값 크기
 
         BarData data = new BarData(bardataset);
         String[] labels = {targetStrings[5], targetStrings[4], targetStrings[3], targetStrings[2], targetStrings[1], targetStrings[0]};
@@ -210,7 +210,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.MyViewHolder>
         featureChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED); // 그림 좌우에 X-value 표시
         XAxis xAxis = featureChart.getXAxis();
         xAxis.setLabelCount(6);
-        xAxis.setTextSize(14f); // x값 크기
+        xAxis.setTextSize(12f); // x값 크기
 
         featureChart.getDescription().setEnabled(false); // Hide the description
         featureChart.getAxisLeft().setDrawLabels(false); // 그림의 윗부분 수치(Y-value) 사라짐

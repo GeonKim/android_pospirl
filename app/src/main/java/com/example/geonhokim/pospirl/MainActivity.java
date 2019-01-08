@@ -319,11 +319,11 @@ public class MainActivity extends AppCompatActivity
 
         dataSet.setColors(new int[]{R.color.lime_yellow, R.color.lime_blue}, MainActivity.this);
         PieData data = new PieData(dataSet);
-        data.setValueTextSize(20f);
+        data.setValueTextSize(15f);
 
 //        pieChart.animateY(1000, Easing.EasingOption.EaseInOutQuad);
         pieChart.setCenterText(company_name.toUpperCase());
-        pieChart.setCenterTextSize(20f);
+        pieChart.setCenterTextSize(15f);
         pieChart.setCenterTextColor(R.color.colorPrimary);
         pieChart.setData(data); //plotting
     }
